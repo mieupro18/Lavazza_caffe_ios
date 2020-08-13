@@ -23,7 +23,7 @@ export default class connectingScreen extends Component {
         isbackgroundTimerOn: false,
       };
     }
-
+hi
     //http://34.71.69.61:9876/sendFeedbackData
   sendFeedbackData = async feedbackData => {
     const netInfo = await NetInfo.fetch();
