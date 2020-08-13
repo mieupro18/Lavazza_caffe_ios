@@ -41,7 +41,7 @@ export default class connectingScreen extends Component {
         .then(async resultData => {
           if (resultData.status === 'Success') {
             console.log('data send');
-            clearInterval(this.intervalId);
+            BackgroundTimer.stopBackgroundTimer(this.intervalId);
             //BackgroundTimer.stop();
             this.setState({isbackgroundTimerOn: false});
             AsyncStorage.removeItem('feedbackData');
@@ -50,6 +50,9 @@ export default class connectingScreen extends Component {
         .catch(async e => {
           console.log(e);
         });
+    }
+    else{
+        console.log("no internet");
     }
   };
 
@@ -65,16 +68,16 @@ export default class connectingScreen extends Component {
         } else {
             console.log("hi",feedbackData)
             //BackgroundTimer.start()
-          this.intervalId = setInterval(async () => {
+          this.intervalId = BackgroundTimer.runBackgroundTimer(async () => {
               console.log(feedbackData)
             await this.sendFeedbackData(feedbackData);
-          }, 60000);
+          }, 15000);
           this.setState({isbackgroundTimerOn: true});
         }
       } else if (state === 'active') {
         console.log('active');
         if (this.state.isbackgroundTimerOn === true) {
-          clearInterval(this.intervalId);
+          BackgroundTimer.stopBackgroundTimer(this.intervalId);
           //BackgroundTimer.stop();
           this.setState({isbackgroundTimerOn: false});
         }
@@ -142,7 +145,7 @@ export default class connectingScreen extends Component {
     const controller = new AbortController();
     setTimeout(() => {
         controller.abort();
-    }, 10000);
+    }, 5000);
     return controller;
     };
 
