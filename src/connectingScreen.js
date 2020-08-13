@@ -52,7 +52,7 @@ export default class connectingScreen extends Component {
         });
     }
     else{
-        console.log("no internet");
+        console.log("no internet connection");
     }
   };
 
