@@ -1,23 +1,3 @@
-
-/*import React, {Component} from 'react';
-import {ScrollView, StyleSheet, Image, View, Text, Modal} from 'react-native';
-export default class productList extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        splashScreenVisible: true,
-        isConnecting: false,
-        isbackgroundTimerOn: false,
-      };
-    }
-
-    render() {
-        return (
-            <Text>Jaskar</Text>
-        );
-    }
-}*/
-
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {ScrollView,SafeAreaView, StyleSheet, Image, View, Text, Modal, AppState} from 'react-native';
@@ -27,7 +7,6 @@ import BackgroundTimer from 'react-native-background-timer';
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
@@ -55,7 +34,7 @@ Icon.loadFont();
 Feather.loadFont();
 MaterialCommunityIcons.loadFont();
 
-class ProductList extends Component {
+class dispenseScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -795,4 +774,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductList;
+export default dispenseScreen;

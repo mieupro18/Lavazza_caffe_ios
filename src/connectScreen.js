@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
-import {IPADDRESS, PORT, HTTPS} from './macros';
+import {IPADDRESS, PORT, HTTPS, FEEDBACK_SERVER_ENDPOINT} from './macros';
 import BackgroundTimer from 'react-native-background-timer';
-export default class connectingScreen extends Component {
+export default class connectScreen extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -24,37 +24,36 @@ export default class connectingScreen extends Component {
       };
     }
 
-    //http://34.71.69.61:9876/sendFeedbackData
-  sendFeedbackData = async feedbackData => {
-    const netInfo = await NetInfo.fetch();
-    console.log('Internet Connection :', netInfo.isInternetReachable);
-    if (netInfo.isInternetReachable) {
-      fetch('https://mieupro.pythonanywhere.com/feedback', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        signal: (await this.getTimeoutSignal()).signal,
-        body: JSON.stringify(feedbackData),
-      })
-        .then(response => response.json())
-        .then(async resultData => {
-          if (resultData.status === 'Success') {
-            console.log('data send');
-            BackgroundTimer.stopBackgroundTimer(this.intervalId);
-            //BackgroundTimer.stop();
-            this.setState({isbackgroundTimerOn: false});
-            AsyncStorage.removeItem('feedbackData');
-          }
+    // Sending collected Feedback data to remote server when mobile gets internet connection
+    sendFeedbackData = async feedbackData => {
+        const netInfo = await NetInfo.fetch();
+        console.log('Internet Connection :', netInfo.isInternetReachable);
+        if (netInfo.isInternetReachable) {
+        fetch(FEEDBACK_SERVER_ENDPOINT, {
+            method: 'post',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            signal: (await this.getTimeoutSignal()).signal,
+            body: JSON.stringify(feedbackData),
         })
-        .catch(async e => {
-          console.log(e);
-        });
-    }
-    else{
-        console.log("no internet connection");
-    }
-  };
+            .then(response => response.json())
+            .then(async resultData => {
+            if (resultData.status === 'Success') {
+                console.log('data send');
+                BackgroundTimer.stopBackgroundTimer(this.intervalId);
+                this.setState({isbackgroundTimerOn: false});
+                AsyncStorage.removeItem('feedbackData');
+            }
+            })
+            .catch(async e => {
+                console.log(e);
+            });
+        }
+        else{
+            console.log("no internet connection");
+        }
+    };
 
   handleAppStateChange = async state => {
     try {
@@ -114,7 +113,7 @@ export default class connectingScreen extends Component {
         .then(async resultData => {
         console.log(resultData);
         if (resultData.status === 'Success') {
-            this.props.navigation.navigate('productList', {
+            this.props.navigation.navigate('dispenseScreen', {
             productList: resultData.data,
             machineName: resultData.machineName,
             machineId: resultData.machineId,

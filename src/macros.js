@@ -2,6 +2,7 @@
 const IPADDRESS = '192.168.1.8';
 const HTTPS = 'http';
 const PORT = '9876';
+const FEEDBACK_SERVER_ENDPOINT = 'https://mieupro.pythonanywhere.com/feedback';
 
 // FEEDBACK INTERVAL TIME
 const initialFeedbackInterval = 10800000;
@@ -45,6 +46,7 @@ export {
   IPADDRESS,
   HTTPS,
   PORT,
+  FEEDBACK_SERVER_ENDPOINT,
   BEFORE_PLACING_ORDER,
   PLEASE_WAIT,
   ORDER_PLACED_AND_RECEIVED_BY_THE_MACHINE,
