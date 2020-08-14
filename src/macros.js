@@ -7,6 +7,7 @@ const FEEDBACK_SERVER_ENDPOINT = 'https://mieupro.pythonanywhere.com/feedback';
 // FEEDBACK INTERVAL TIME
 const initialFeedbackInterval = 10800000;
 const routineFeedbackInterval = 86400000;
+const intervalBetweenSendingFeedbackData = 5000;
 
 // FEEDBACK INTERVAL TIME
 //const initialFeedbackInterval = 60000;
@@ -47,6 +48,7 @@ export {
   HTTPS,
   PORT,
   FEEDBACK_SERVER_ENDPOINT,
+  intervalBetweenSendingFeedbackData,
   BEFORE_PLACING_ORDER,
   PLEASE_WAIT,
   ORDER_PLACED_AND_RECEIVED_BY_THE_MACHINE,

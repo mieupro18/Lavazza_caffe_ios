@@ -29,6 +29,7 @@ import {
   initialFeedbackInterval,
   routineFeedbackInterval,
 } from './macros';
+import getTimeoutSignal from './commonApis';
 
 Icon.loadFont();
 Feather.loadFont();
@@ -152,14 +153,7 @@ class dispenseScreen extends Component {
     }
   };
 
-  getTimeoutSignal = async () => {
-    // eslint-disable-next-line no-undef
-    const controller = new AbortController();
-    setTimeout(() => {
-      controller.abort();
-    }, 10000);
-    return controller;
-  };
+  
 
   stopPollForOrderStatus = async () => {
     clearInterval(this.pollingIntervalId);
@@ -181,7 +175,7 @@ class dispenseScreen extends Component {
           headers: {
             tokenId: 'secret',
           },
-          signal: (await this.getTimeoutSignal()).signal,
+          signal: (await getTimeoutSignal(10000)).signal,
         },
       )
         .then(response => response.json())
@@ -281,7 +275,7 @@ class dispenseScreen extends Component {
         headers: {
           tokenId: 'secret',
         },
-        signal: (await this.getTimeoutSignal()).signal,
+        signal: (await getTimeoutSignal(10000)).signal,
       },
     )
       .then(response => response.json())
@@ -336,7 +330,7 @@ class dispenseScreen extends Component {
         headers: {
           tokenId: 'secret',
         },
-        signal: (await this.getTimeoutSignal()).signal,
+        signal: (await getTimeoutSignal(10000)).signal,
       },
     )
       .then(response => response.json())
@@ -427,7 +421,7 @@ class dispenseScreen extends Component {
                     starCount: 0,
                   });
                 }}>
-                <Card key={index}>
+                <Card >
                   <CardItem>
                     <View
                       style={{

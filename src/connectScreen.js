@@ -12,7 +12,8 @@ import {
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
-import {IPADDRESS, PORT, HTTPS, FEEDBACK_SERVER_ENDPOINT} from './macros';
+import {IPADDRESS, PORT, HTTPS, FEEDBACK_SERVER_ENDPOINT, intervalBetweenSendingFeedbackData} from './macros';
+import getTimeoutSignal from './commonApis';
 import BackgroundTimer from 'react-native-background-timer';
 export default class connectScreen extends Component {
     constructor(props) {
@@ -70,7 +71,7 @@ export default class connectScreen extends Component {
           this.intervalId = BackgroundTimer.runBackgroundTimer(async () => {
               console.log(feedbackData)
             await this.sendFeedbackData(feedbackData);
-          }, 15000);
+          }, intervalBetweenSendingFeedbackData);
           this.setState({isbackgroundTimerOn: true});
         }
       } else if (state === 'active') {
@@ -107,7 +108,7 @@ export default class connectScreen extends Component {
         headers: {
         tokenId: 'secret',
         },
-        signal: (await this.getTimeoutSignal()).signal,
+        signal: (await getTimeoutSignal(5000)).signal,
     })
         .then(response => response.json())
         .then(async resultData => {
@@ -139,14 +140,7 @@ export default class connectScreen extends Component {
         });
     };
 
-    getTimeoutSignal = async () => {
-    // eslint-disable-next-line no-undef
-    const controller = new AbortController();
-    setTimeout(() => {
-        controller.abort();
-    }, 5000);
-    return controller;
-    };
+   
 
 
     render() {
