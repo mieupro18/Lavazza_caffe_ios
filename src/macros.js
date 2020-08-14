@@ -1,5 +1,5 @@
 // SERVER INFO
-const IPADDRESS = '192.168.1.8';
+const IPADDRESS = '192.168.1.4';
 const HTTPS = 'http';
 const PORT = '9876';
 const FEEDBACK_SERVER_ENDPOINT = 'https://mieupro.pythonanywhere.com/feedback';
