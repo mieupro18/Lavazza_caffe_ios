@@ -36,6 +36,7 @@ import {
   INITIAL_FEEDBACK_INTERVAL,
   ROUTINE_FEEDBACK_INTERVAL,
   HTTP_POLLING_INTERVAL,
+  productList,
 } from './macros';
 import getTimeoutSignal from './commonApis';
 
@@ -61,84 +62,6 @@ class dispenseScreen extends Component {
       timer: 30,
       machineName: null,
       machineId: null,
-      allProductListURL: [
-        {
-          productName: 'Cappuccino',
-          src: require('../assets/macchiato.jpg'),
-        },
-        {
-          productName: 'Espresso',
-          src: require('../assets/espresso.jpg'),
-        },
-        {
-          productName: 'Milk',
-          src: require('../assets/milk.jpg'),
-        },
-        {
-          productName: 'South Indian Coffee Light',
-          src: require('../assets/SIC_light.jpg'),
-        },
-        {
-          productName: 'South Indian Coffee Strong',
-          src: require('../assets/SIC_strong.jpg'),
-        },
-        {
-          productName: 'Tea Milk',
-          src: require('../assets/tea_milk.jpg'),
-        },
-        {
-          productName: 'Tea Water',
-          src: require('../assets/tea_water.jpg'),
-        },
-        {
-          productName: 'Lemon Tea',
-          src: require('../assets/lemon_tea.png'),
-        },
-        {
-          productName: 'Ristretto',
-          src: require('../assets/ristretto.jpg'),
-        },
-        {
-          productName: 'Macchiato',
-          src: require('../assets/macchiato.jpg'),
-        },
-        {
-          productName: 'Hot Water',
-          src: require('../assets/hot_water.jpg'),
-        },
-        {
-          productName: 'Hot Chocolate',
-          src: require('../assets/hot_chocolate.jpg'),
-        },
-        {
-          productName: 'Horlicks',
-          src: require('../assets/horlicks.jpg'),
-        },
-        {
-          productName: 'Green Tea',
-          src: require('../assets/green_tea.jpg'),
-        },
-        {
-          productName: 'Caffe Latte',
-          src: require('../assets/caffe_latte.jpg'),
-        },
-        {
-          productName: 'Black Tea',
-          src: require('../assets/black_tea.jpg'),
-        },
-        {
-          productName: 'Black Coffee',
-          src: require('../assets/black_coffee.jpg'),
-        },
-        {
-          productName: 'Hot Milk',
-          src: require('../assets/hot_milk.jpg'),
-        },
-        {
-          productName: 'Badam Milk',
-          src: require('../assets/badam_milk.jpg'),
-        },
-      ],
     };
   }
 
@@ -154,7 +77,7 @@ class dispenseScreen extends Component {
     console.log('show Product list');
     let deviceProductList = [];
     await produtList.map(async (product) => {
-      let filterProduct = this.state.allProductListURL.find(
+      let filterProduct = productList.find(
         (allproduct) => allproduct.productName === product.productName,
       );
       filterProduct.productId = product.productId;
@@ -207,11 +130,9 @@ class dispenseScreen extends Component {
 
   stopPollForOrderStatus = async () => {
     clearInterval(this.pollingIntervalId);
-    //BackgroundTimer.stop();
   };
 
   startPollForOrderStatus = async (productName) => {
-    //BackgroundTimer.start();
     this.pollingIntervalId = setInterval(async () => {
       fetch(
         HTTPS +
@@ -244,13 +165,11 @@ class dispenseScreen extends Component {
                 waitTimeVisible: false,
                 waitTime: null,
               });
-              //BackgroundTimer.start();
               this.timer = setInterval(async () => {
                 this.setState({timer: this.state.timer - 1});
                 console.log(this.state.timer);
                 if (this.state.timer === 0) {
                   clearInterval(this.timer);
-                  //BackgroundTimer.stop();
                   this.setState({timer: 30});
                   this.setState({
                     orderStatusCode: TIMEOUT_EXPIRED,

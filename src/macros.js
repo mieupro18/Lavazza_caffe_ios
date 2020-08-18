@@ -47,6 +47,86 @@ const orderStatus = {
   10: 'Rinsing',
   11: '         Milk is not ready\nPlease try after sometime',
 };
+
+const productList = [
+  {
+    productName: 'Cappuccino',
+    src: require('../assets/cappuccino.jpg'),
+  },
+  {
+    productName: 'Espresso',
+    src: require('../assets/espresso.jpg'),
+  },
+  {
+    productName: 'Milk',
+    src: require('../assets/milk.jpg'),
+  },
+  {
+    productName: 'South Indian Coffee Light',
+    src: require('../assets/SIC_light.jpg'),
+  },
+  {
+    productName: 'South Indian Coffee Strong',
+    src: require('../assets/SIC_strong.jpg'),
+  },
+  {
+    productName: 'Tea Milk',
+    src: require('../assets/tea_milk.jpg'),
+  },
+  {
+    productName: 'Tea Water',
+    src: require('../assets/tea_water.jpg'),
+  },
+  {
+    productName: 'Lemon Tea',
+    src: require('../assets/lemon_tea.png'),
+  },
+  {
+    productName: 'Ristretto',
+    src: require('../assets/ristretto.jpg'),
+  },
+  {
+    productName: 'Macchiato',
+    src: require('../assets/macchiato.jpg'),
+  },
+  {
+    productName: 'Hot Water',
+    src: require('../assets/hot_water.jpg'),
+  },
+  {
+    productName: 'Hot Chocolate',
+    src: require('../assets/hot_chocolate.jpg'),
+  },
+  {
+    productName: 'Horlicks',
+    src: require('../assets/horlicks.jpg'),
+  },
+  {
+    productName: 'Green Tea',
+    src: require('../assets/green_tea.jpg'),
+  },
+  {
+    productName: 'Caffe Latte',
+    src: require('../assets/caffe_latte.jpg'),
+  },
+  {
+    productName: 'Black Tea',
+    src: require('../assets/black_tea.jpg'),
+  },
+  {
+    productName: 'Black Coffee',
+    src: require('../assets/black_coffee.jpg'),
+  },
+  {
+    productName: 'Hot Milk',
+    src: require('../assets/hot_milk.jpg'),
+  },
+  {
+    productName: 'Badam Milk',
+    src: require('../assets/badam_milk.jpg'),
+  },
+];
+
 export {
   IPADDRESS,
   HTTPS,
@@ -70,4 +150,5 @@ export {
   HTTP_POLLING_INTERVAL,
   SPLASHSCREEN_VISIBLE_TIME,
   orderStatus,
+  productList,
 };
