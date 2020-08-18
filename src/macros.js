@@ -1,13 +1,17 @@
 // SERVER INFO
-const IPADDRESS = '192.168.1.4';
+const IPADDRESS = '192.168.5.1';
 const HTTPS = 'http';
 const PORT = '9876';
 const FEEDBACK_SERVER_ENDPOINT = 'https://mieupro.pythonanywhere.com/feedback';
 
 // FEEDBACK INTERVAL TIME
-const initialFeedbackInterval = 10800000;
-const routineFeedbackInterval = 86400000;
-const intervalBetweenSendingFeedbackData = 5000;
+const INITIAL_FEEDBACK_INTERVAL = 10800000;
+const ROUTINE_FEEDBACK_INTERVAL = 86400000;
+const INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA = 5000;
+
+// POLLING INTERVAL FOR REST CALL
+const HTTP_POLLING_INTERVAL = 4000;
+const SPLASHSCREEN_VISIBLE_TIME = 3000;
 
 // FEEDBACK INTERVAL TIME
 //const initialFeedbackInterval = 60000;
@@ -48,7 +52,6 @@ export {
   HTTPS,
   PORT,
   FEEDBACK_SERVER_ENDPOINT,
-  intervalBetweenSendingFeedbackData,
   BEFORE_PLACING_ORDER,
   PLEASE_WAIT,
   ORDER_PLACED_AND_RECEIVED_BY_THE_MACHINE,
@@ -61,7 +64,10 @@ export {
   FOAMER_OFF,
   RINSING,
   MILK_NOT_READY,
+  INITIAL_FEEDBACK_INTERVAL,
+  ROUTINE_FEEDBACK_INTERVAL,
+  INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
+  HTTP_POLLING_INTERVAL,
+  SPLASHSCREEN_VISIBLE_TIME,
   orderStatus,
-  initialFeedbackInterval,
-  routineFeedbackInterval,
 };

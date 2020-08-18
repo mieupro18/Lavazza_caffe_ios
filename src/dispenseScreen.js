@@ -1,9 +1,16 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {ScrollView,SafeAreaView, StyleSheet, Image, View, Text, Modal, AppState} from 'react-native';
+import {
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  Modal,
+  AppState,
+} from 'react-native';
 import {Card, CardItem} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
-import BackgroundTimer from 'react-native-background-timer';
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
@@ -26,8 +33,9 @@ import {
   RINSING,
   MILK_NOT_READY,
   orderStatus,
-  initialFeedbackInterval,
-  routineFeedbackInterval,
+  INITIAL_FEEDBACK_INTERVAL,
+  ROUTINE_FEEDBACK_INTERVAL,
+  HTTP_POLLING_INTERVAL,
 } from './macros';
 import getTimeoutSignal from './commonApis';
 
@@ -98,12 +106,12 @@ class dispenseScreen extends Component {
     AppState.removeEventListener('change');
   }
 
-  showProductList = async produtList => {
+  showProductList = async (produtList) => {
     console.log('show Product list');
     let deviceProductList = [];
-    await produtList.map(async product => {
+    await produtList.map(async (product) => {
       let filterProduct = this.state.allProductListURL.find(
-        allproduct => allproduct.productName === product.productName,
+        (allproduct) => allproduct.productName === product.productName,
       );
       filterProduct.productId = product.productId;
       deviceProductList.push(filterProduct);
@@ -117,7 +125,7 @@ class dispenseScreen extends Component {
     });
   };
 
-  checkForFeedbackVisibility = async productName => {
+  checkForFeedbackVisibility = async (productName) => {
     var feedbackTimeDetails = JSON.parse(
       await AsyncStorage.getItem(productName),
     );
@@ -127,7 +135,7 @@ class dispenseScreen extends Component {
     if (feedbackTimeDetails === null) {
       feedbackTimeDetails = {
         lastFeedbackDisplayedTime: currentTime,
-        nextFeedbackInterval: initialFeedbackInterval,
+        nextFeedbackInterval: INITIAL_FEEDBACK_INTERVAL,
       };
       await AsyncStorage.setItem(
         productName,
@@ -141,7 +149,7 @@ class dispenseScreen extends Component {
       feedbackTimeDetails.nextFeedbackInterval
     ) {
       feedbackTimeDetails.lastFeedbackDisplayedTime = currentTime;
-      feedbackTimeDetails.nextFeedbackInterval = routineFeedbackInterval;
+      feedbackTimeDetails.nextFeedbackInterval = ROUTINE_FEEDBACK_INTERVAL;
       await AsyncStorage.setItem(
         productName,
         JSON.stringify(feedbackTimeDetails),
@@ -153,14 +161,12 @@ class dispenseScreen extends Component {
     }
   };
 
-  
-
   stopPollForOrderStatus = async () => {
     clearInterval(this.pollingIntervalId);
     //BackgroundTimer.stop();
   };
 
-  startPollForOrderStatus = async (productName, interval) => {
+  startPollForOrderStatus = async (productName) => {
     //BackgroundTimer.start();
     this.pollingIntervalId = setInterval(async () => {
       fetch(
@@ -178,8 +184,8 @@ class dispenseScreen extends Component {
           signal: (await getTimeoutSignal(10000)).signal,
         },
       )
-        .then(response => response.json())
-        .then(async resultData => {
+        .then((response) => response.json())
+        .then(async (resultData) => {
           console.log(resultData);
           if (resultData.status === 'Success') {
             if (resultData.orderStatus === 'InQueue') {
@@ -250,7 +256,7 @@ class dispenseScreen extends Component {
           }
           //console.log(this.state.orderStatusCode);
         })
-        .catch(async e => {
+        .catch(async (e) => {
           this.stopPollForOrderStatus();
           this.setState({
             orderStatusCode: SOMETHING_WENT_WRONG,
@@ -261,7 +267,7 @@ class dispenseScreen extends Component {
             waitTime: null,
           });
         });
-    }, interval);
+    }, HTTP_POLLING_INTERVAL);
   };
 
   placeOrder = async (productId, productName) => {
@@ -278,8 +284,8 @@ class dispenseScreen extends Component {
         signal: (await getTimeoutSignal(10000)).signal,
       },
     )
-      .then(response => response.json())
-      .then(async resultData => {
+      .then((response) => response.json())
+      .then(async (resultData) => {
         console.log(resultData);
         if (resultData.status === 'Success') {
           this.setState({
@@ -287,13 +293,13 @@ class dispenseScreen extends Component {
             orderNumberVisible: true,
             waitTimeVisible: true,
             orderNumber: resultData.orderNo,
-            waitTime: resultData.approxWaitTime*30,
+            waitTime: resultData.approxWaitTime * 30,
           });
           console.log(resultData);
           console.log('ack');
           this.state.orderId = resultData.orderId;
           console.log(this.state.orderNumber, this.state.waitTime);
-          await this.startPollForOrderStatus(productName, 5000);
+          await this.startPollForOrderStatus(productName);
         } else {
           if (resultData.infoText === 'Machine is not Ready') {
             this.setState({orderStatusCode: MACHINE_NOT_READY});
@@ -302,7 +308,7 @@ class dispenseScreen extends Component {
           }
         }
       })
-      .catch(async e => {
+      .catch(async (e) => {
         console.log(e);
         this.setState({
           orderStatusCode: SOMETHING_WENT_WRONG,
@@ -314,7 +320,7 @@ class dispenseScreen extends Component {
       });
   };
 
-  startDispense = async productName => {
+  startDispense = async (productName) => {
     clearInterval(this.timer);
     this.setState({timer: 30});
     this.setState({orderStatusCode: DISPENSING});
@@ -333,13 +339,13 @@ class dispenseScreen extends Component {
         signal: (await getTimeoutSignal(10000)).signal,
       },
     )
-      .then(response => response.json())
-      .then(async resultData => {
+      .then((response) => response.json())
+      .then(async (resultData) => {
         console.log(resultData);
         if (resultData.status === 'Success') {
           console.log('Dispense Starts');
           //this.setState({orderStatusCode: DISPENSING});
-          this.startPollForOrderStatus(productName, 3000);
+          this.startPollForOrderStatus(productName);
         } else {
           if (resultData.infoText === 'Machine is not Ready') {
             this.setState({orderStatusCode: MACHINE_NOT_READY});
@@ -361,7 +367,7 @@ class dispenseScreen extends Component {
           });
         }
       })
-      .catch(async e => {
+      .catch(async (e) => {
         this.setState({
           orderStatusCode: SOMETHING_WENT_WRONG,
           orderId: null,
@@ -421,7 +427,7 @@ class dispenseScreen extends Component {
                     starCount: 0,
                   });
                 }}>
-                <Card >
+                <Card>
                   <CardItem>
                     <View
                       style={{
@@ -449,7 +455,7 @@ class dispenseScreen extends Component {
                           name="circle-with-plus"
                           size={35}
                           style={{color: '#100A45'}}
-                    />
+                        />
                       </View>
                     </View>
                   </CardItem>
@@ -459,110 +465,204 @@ class dispenseScreen extends Component {
           })}
         </ScrollView>
         {this.state.deviceProductList.length > 0 ? (
-            <Modal
-              animationType="slide"
-              visible={this.state.modalVisible}
-              onRequestClose={async () => {
-                if (
-                  this.state.orderStatusCode >=
-                    ORDER_PLACED_AND_NOT_YET_RECEIVED_BY_THE_MACHINE &&
-                  this.state.orderStatusCode <= DISPENSING
-                ) {
-                  console.log('Please dont go back');
-                } else if (this.state.orderStatusCode === ORDER_DISPENSED) {
-                  this.props.navigation.goBack();
-                } else {
-                  this.setState({modalVisible: false, feedbackVisible: false});
-                }
-              }}>
-              <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                  {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
-                  this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
-                    <Icon
-                      name="circle-with-cross"
-                      onPress={() => {
-                        this.setState({
-                          modalVisible: !this.state.modalVisible,
-                        });
-                      }}
-                      size={30}
-                      style={{color: '#100A45', left: '95%'}}
-                    />
-                  ) : null}
+          <Modal
+            animationType="slide"
+            visible={this.state.modalVisible}
+            onRequestClose={async () => {
+              if (
+                this.state.orderStatusCode >=
+                  ORDER_PLACED_AND_NOT_YET_RECEIVED_BY_THE_MACHINE &&
+                this.state.orderStatusCode <= DISPENSING
+              ) {
+                console.log('Please dont go back');
+              } else if (this.state.orderStatusCode === ORDER_DISPENSED) {
+                this.props.navigation.goBack();
+              } else {
+                this.setState({modalVisible: false, feedbackVisible: false});
+              }
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
+                this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
+                  <Icon
+                    name="circle-with-cross"
+                    onPress={() => {
+                      this.setState({
+                        modalVisible: !this.state.modalVisible,
+                      });
+                    }}
+                    size={30}
+                    style={{color: '#100A45', left: '95%'}}
+                  />
+                ) : null}
 
+                <View style={{marginTop: 10, alignItems: 'center'}}>
+                  <Image
+                    style={{width: 100, height: 25}}
+                    source={require('../assets/lavazza_logo_without_year.png')}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginTop: 10,
+                    marginBottom: 'auto',
+                    alignItems: 'center',
+                  }}>
+                  <Text style={styles.productName}>
+                    {
+                      this.state.deviceProductList[this.state.selectedIndex]
+                        .productName
+                    }
+                  </Text>
+                </View>
+                {this.state.orderStatusCode === DISPENSING ? (
                   <View style={{marginTop: 10, alignItems: 'center'}}>
                     <Image
-                      style={{width: 100, height: 25}}
-                      source={require('../assets/lavazza_logo_without_year.png')}
+                      style={{width: 150, height: 150}}
+                      source={require('../assets/dispensing.gif')}
                     />
                   </View>
+                ) : (
+                  <View style={{marginTop: 10, alignItems: 'center'}}>
+                    <Image
+                      style={{width: 75, height: 75, borderRadius: 75 / 2}}
+                      source={
+                        this.state.deviceProductList[this.state.selectedIndex]
+                          .src
+                      }
+                    />
+                  </View>
+                )}
+                {this.state.orderNumberVisible ? (
                   <View
                     style={{
-                      marginTop: 10,
-                      marginBottom: 'auto',
+                      marginTop: 5,
                       alignItems: 'center',
+                      justifyContent: 'center',
                     }}>
-                    <Text style={styles.productName}>
-                      {
-                        this.state.deviceProductList[this.state.selectedIndex]
-                          .productName
-                      }
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 'bold',
+                        color: '#100A45',
+                      }}>
+                      Order No {this.state.orderNumber}
                     </Text>
                   </View>
-                  {this.state.orderStatusCode === DISPENSING ? (
-                    <View style={{marginTop: 10, alignItems: 'center'}}>
-                      <Image
-                        style={{width: 150, height: 150}}
-                        source={require('../assets/dispensing.gif')}
-                      />
-                    </View>
-                  ) : (
-                    <View style={{marginTop: 10, alignItems: 'center'}}>
-                      <Image
-                        style={{width: 75, height: 75, borderRadius: 75 / 2}}
-                        source={
-                          this.state.deviceProductList[this.state.selectedIndex]
-                            .src
-                        }
-                      />
-                    </View>
-                  )}
-                  {this.state.orderNumberVisible ? (
-                    <View
-                      style={{
-                        marginTop: 5,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
-                      <Text
-                        style={{
-                          fontSize: 12,
-                          fontWeight: 'bold',
-                          color: '#100A45',
-                        }}>
-                        Order No {this.state.orderNumber}
-                      </Text>
-                    </View>
-                  ) : null}
+                ) : null}
 
+                <View
+                  style={{
+                    marginTop: 10,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text style={{color: '#6F6D6D', fontSize: 10}}>Status</Text>
+                  <Text style={{marginTop: 5, color: '#100A45', fontSize: 12}}>
+                    {orderStatus[this.state.orderStatusCode]}
+                  </Text>
+                </View>
+
+                {this.state.waitTimeVisible ? (
                   <View
                     style={{
-                      marginTop: 10,
+                      marginTop: 5,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 'bold',
+                        color: '#100A45',
+                      }}>
+                      Approx Wait Time - {this.state.waitTime} Sec
+                    </Text>
+                  </View>
+                ) : null}
+
+                {/* visible when feedback time arrives  */}
+                {this.state.feedbackVisible ? (
+                  <View
+                    style={{
+                      marginTop: 20,
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    <Text style={{color: '#6F6D6D', fontSize: 10}}>Status</Text>
-                    <Text
-                      style={{marginTop: 5, color: '#100A45', fontSize: 12}}>
-                      {orderStatus[this.state.orderStatusCode]}
+                    <Text style={{color: '#6F6D6D', fontSize: 10}}>
+                      Feedback
                     </Text>
+                    <View style={{marginTop: 5}}>
+                      <StarRating
+                        maxStars={5}
+                        starSize={35}
+                        emptyStar="star-outlined"
+                        fullStar="star"
+                        iconSet="Entypo"
+                        emptyStarColor="#6F6D6D"
+                        fullStarColor="#100A45"
+                        halfStarEnabled={false}
+                        rating={this.state.starCount}
+                        selectedStar={(rating) =>
+                          this.onStarRatingPress(
+                            rating,
+                            this.state.deviceProductList[
+                              this.state.selectedIndex
+                            ].productName,
+                          )
+                        }
+                      />
+                    </View>
                   </View>
+                ) : null}
+                {this.state.orderStatusCode === ORDER_DISPENSED ? (
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      marginTop: 20,
+                    }}>
+                    <MaterialCommunityIcons.Button
+                      name="check-circle"
+                      size={25}
+                      color="white"
+                      backgroundColor="#100A45"
+                      onPress={async () => {
+                        this.props.navigation.goBack();
+                      }}>
+                      <Text style={{fontSize: 15, color: '#ffffff'}}>Done</Text>
+                    </MaterialCommunityIcons.Button>
+                  </View>
+                ) : null}
 
-                  {this.state.waitTimeVisible ? (
+                {this.state.orderStatusCode === PLACE_THE_CUP ? (
+                  <View style={{}}>
                     <View
                       style={{
-                        marginTop: 5,
+                        marginTop: 20,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}>
+                      <Feather.Button
+                        name="coffee"
+                        size={25}
+                        color="white"
+                        backgroundColor="#100A45"
+                        onPress={async () => {
+                          this.startDispense(
+                            this.state.deviceProductList[
+                              this.state.selectedIndex
+                            ].productName,
+                          );
+                        }}>
+                        <Text style={{fontSize: 15, color: '#ffffff'}}>
+                          Dispense
+                        </Text>
+                      </Feather.Button>
+                    </View>
+                    <View
+                      style={{
+                        marginTop: 10,
                         alignItems: 'center',
                         justifyContent: 'center',
                       }}>
@@ -572,142 +672,43 @@ class dispenseScreen extends Component {
                           fontWeight: 'bold',
                           color: '#100A45',
                         }}>
-                        Approx Wait Time - {this.state.waitTime} Sec
+                        Timeout: {this.state.timer}
                       </Text>
                     </View>
-                  ) : null}
+                  </View>
+                ) : null}
 
-                  {/* visible when feedback time arrives  */}
-                  {this.state.feedbackVisible ? (
-                    <View
-                      style={{
-                        marginTop: 20,
-                        justifyContent: 'center',
-                        alignItems: 'center',
+                {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
+                this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
+                  <View
+                    style={{
+                      alignItems: 'center',
+                      marginTop: 20,
+                    }}>
+                    <Feather.Button
+                      name="coffee"
+                      size={25}
+                      color="white"
+                      backgroundColor="#100A45"
+                      onPress={async () => {
+                        await this.placeOrder(
+                          this.state.deviceProductList[this.state.selectedIndex]
+                            .productId,
+                          this.state.deviceProductList[this.state.selectedIndex]
+                            .productName,
+                        );
                       }}>
-                      <Text style={{color: '#6F6D6D', fontSize: 10}}>
-                        Feedback
+                      <Text style={{fontSize: 15, color: '#ffffff'}}>
+                        Order
                       </Text>
-                      <View style={{marginTop: 5}}>
-                        <StarRating
-                          maxStars={5}
-                          starSize={35}
-                          emptyStar='star-outlined'
-                          fullStar='star'
-                          iconSet='Entypo'
-                          emptyStarColor="#6F6D6D"
-                          fullStarColor="#100A45"
-                          halfStarEnabled={false}
-                          rating={this.state.starCount}
-                          selectedStar={rating =>
-                            this.onStarRatingPress(
-                              rating,
-                              this.state.deviceProductList[
-                                this.state.selectedIndex
-                              ].productName,
-                            )
-                          }
-                        />
-                      </View>
-                    </View>
-                  ) : null}
-                  {this.state.orderStatusCode === ORDER_DISPENSED ? (
-                    <View
-                      style={{
-                        alignItems: 'center',
-                        marginTop: 20,
-                      }}>
-                      <MaterialCommunityIcons.Button
-                        name="check-circle"
-                        size={25}
-                        color="white"
-                        backgroundColor="#100A45"
-                        onPress={async () => {
-                          this.props.navigation.goBack();
-                        }}>
-                        <Text style={{fontSize: 15, color: '#ffffff'}}>
-                          Done
-                        </Text>
-                      </MaterialCommunityIcons.Button>
-                    </View>
-                  ) : null}
-
-                  {this.state.orderStatusCode === PLACE_THE_CUP ? (
-                    <View style={{}}>
-                      <View
-                        style={{
-                          marginTop: 20,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}>
-                        <Feather.Button
-                          name="coffee"
-                          size={25}
-                          color="white"
-                          backgroundColor="#100A45"
-                          onPress={async () => {
-                            this.startDispense(
-                              this.state.deviceProductList[
-                                this.state.selectedIndex
-                              ].productName,
-                            );
-                          }}>
-                          <Text style={{fontSize: 15, color: '#ffffff'}}>
-                            Dispense
-                          </Text>
-                        </Feather.Button>
-                      </View>
-                      <View
-                        style={{
-                          marginTop: 10,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}>
-                        <Text
-                          style={{
-                            fontSize: 10,
-                            fontWeight: 'bold',
-                            color: '#100A45',
-                          }}>
-                          Timeout: {this.state.timer}
-                        </Text>
-                      </View>
-                    </View>
-                  ) : null}
-
-                  {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
-                  this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
-                    <View
-                      style={{
-                        alignItems: 'center',
-                        marginTop: 20,
-                      }}>
-                      <Feather.Button
-                        name="coffee"
-                        size={25}
-                        color="white"
-                        backgroundColor="#100A45"
-                        onPress={async () => {
-                          await this.placeOrder(
-                            this.state.deviceProductList[
-                              this.state.selectedIndex
-                            ].productId,
-                            this.state.deviceProductList[
-                              this.state.selectedIndex
-                            ].productName,
-                          );
-                        }}>
-                        <Text style={{fontSize: 15, color: '#ffffff'}}>
-                          Order
-                        </Text>
-                      </Feather.Button>
-                    </View>
-                  ) : null}
-                </View>
+                    </Feather.Button>
+                  </View>
+                ) : null}
               </View>
-            </Modal>
-          ) : null}
-    </SafeAreaView>
+            </View>
+          </Modal>
+        ) : null}
+      </SafeAreaView>
     );
   }
 }
