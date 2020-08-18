@@ -64,7 +64,7 @@ class dispenseScreen extends Component {
       allProductListURL: [
         {
           productName: 'Cappuccino',
-          src: require('../assets/cappuccino.jpg'),
+          src: require('../assets/macchiato.jpg'),
         },
         {
           productName: 'Espresso',
@@ -93,6 +93,50 @@ class dispenseScreen extends Component {
         {
           productName: 'Lemon Tea',
           src: require('../assets/lemon_tea.png'),
+        },
+        {
+          productName: 'Ristretto',
+          src: require('../assets/ristretto.jpg'),
+        },
+        {
+          productName: 'Macchiato',
+          src: require('../assets/macchiato.jpg'),
+        },
+        {
+          productName: 'Hot Water',
+          src: require('../assets/hot_water.jpg'),
+        },
+        {
+          productName: 'Hot Chocolate',
+          src: require('../assets/hot_chocolate.jpg'),
+        },
+        {
+          productName: 'Horlicks',
+          src: require('../assets/horlicks.jpg'),
+        },
+        {
+          productName: 'Green Tea',
+          src: require('../assets/green_tea.jpg'),
+        },
+        {
+          productName: 'Caffe Latte',
+          src: require('../assets/caffe_latte.jpg'),
+        },
+        {
+          productName: 'Black Tea',
+          src: require('../assets/black_tea.jpg'),
+        },
+        {
+          productName: 'Black Coffee',
+          src: require('../assets/black_coffee.jpg'),
+        },
+        {
+          productName: 'Hot Milk',
+          src: require('../assets/hot_milk.jpg'),
+        },
+        {
+          productName: 'Badam Milk',
+          src: require('../assets/badam_milk.jpg'),
         },
       ],
     };
@@ -401,16 +445,10 @@ class dispenseScreen extends Component {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1}}>
-        <View
-          style={{
-            backgroundColor: '#100A45',
-            height: 50,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+      <SafeAreaView style={styles.mainContainer}>
+        <View style={styles.headerContainer}>
           <Image
-            style={{width: '50%', height: '65%', resizeMode: 'contain'}}
+            style={styles.logoStyleInHeader}
             source={require('../assets/Lavazza-White-Logo-No-Background-.png')}
           />
         </View>
@@ -429,32 +467,23 @@ class dispenseScreen extends Component {
                 }}>
                 <Card>
                   <CardItem>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                      }}>
+                    <View style={styles.cardContainer}>
                       <View>
                         <Image
-                          style={{width: 75, height: 75, borderRadius: 20}}
+                          style={styles.productImageStyleInCard}
                           source={product.src}
                         />
                       </View>
-                      <View
-                        style={{
-                          justifyContent: 'center',
-                          width: '50%',
-                        }}>
-                        <Text style={styles.productName}>
+                      <View style={styles.productNameContainerInCard}>
+                        <Text style={styles.productNameTextStyle}>
                           {product.productName}
                         </Text>
                       </View>
-                      <View style={{justifyContent: 'center'}}>
+                      <View style={styles.plusIconContainerInCard}>
                         <Icon
                           name="circle-with-plus"
                           size={35}
-                          style={{color: '#100A45'}}
+                          style={styles.plusIconStyleInCard}
                         />
                       </View>
                     </View>
@@ -466,10 +495,11 @@ class dispenseScreen extends Component {
         </ScrollView>
         {this.state.deviceProductList.length > 0 ? (
           <Modal
+            transparent={true}
             animationType="slide"
             visible={this.state.modalVisible}
             onRequestClose={async () => {
-              if (
+              /*if (
                 this.state.orderStatusCode >= PLEASE_WAIT &&
                 this.state.orderStatusCode <= DISPENSING
               ) {
@@ -478,7 +508,7 @@ class dispenseScreen extends Component {
                 this.props.navigation.goBack();
               } else {
                 this.setState({modalVisible: false, feedbackVisible: false});
-              }
+              }*/
             }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
@@ -486,29 +516,24 @@ class dispenseScreen extends Component {
                 this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
                   <Icon
                     name="circle-with-cross"
+                    style={styles.modalExitIconStyle}
                     onPress={() => {
                       this.setState({
                         modalVisible: !this.state.modalVisible,
                       });
                     }}
                     size={30}
-                    style={{color: '#100A45', left: '95%'}}
                   />
                 ) : null}
 
-                <View style={{marginTop: 10, alignItems: 'center'}}>
+                <View style={styles.modalItemContainer}>
                   <Image
-                    style={{width: 100, height: 25}}
+                    style={styles.logoStyleInModal}
                     source={require('../assets/lavazza_logo_without_year.png')}
                   />
                 </View>
-                <View
-                  style={{
-                    marginTop: 10,
-                    marginBottom: 'auto',
-                    alignItems: 'center',
-                  }}>
-                  <Text style={styles.productName}>
+                <View style={styles.modalItemContainer}>
+                  <Text style={styles.productNameTextStyle}>
                     {
                       this.state.deviceProductList[this.state.selectedIndex]
                         .productName
@@ -516,16 +541,16 @@ class dispenseScreen extends Component {
                   </Text>
                 </View>
                 {this.state.orderStatusCode === DISPENSING ? (
-                  <View style={{marginTop: 10, alignItems: 'center'}}>
+                  <View style={styles.modalItemContainer}>
                     <Image
-                      style={{width: 150, height: 150}}
+                      style={styles.dispensingGifStyleInModal}
                       source={require('../assets/dispensing.gif')}
                     />
                   </View>
                 ) : (
-                  <View style={{marginTop: 10, alignItems: 'center'}}>
+                  <View style={styles.modalItemContainer}>
                     <Image
-                      style={{width: 75, height: 75, borderRadius: 75 / 2}}
+                      style={styles.productImageStyleInModal}
                       source={
                         this.state.deviceProductList[this.state.selectedIndex]
                           .src
@@ -534,48 +559,23 @@ class dispenseScreen extends Component {
                   </View>
                 )}
                 {this.state.orderNumberVisible ? (
-                  <View
-                    style={{
-                      marginTop: 5,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 'bold',
-                        color: '#100A45',
-                      }}>
+                  <View style={styles.modalItemContainer}>
+                    <Text style={styles.orderNumberTextStyle}>
                       Order No {this.state.orderNumber}
                     </Text>
                   </View>
                 ) : null}
 
-                <View
-                  style={{
-                    marginTop: 10,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text style={{color: '#6F6D6D', fontSize: 10}}>Status</Text>
-                  <Text style={{marginTop: 5, color: '#100A45', fontSize: 12}}>
+                <View style={styles.modalItemContainer}>
+                  <Text style={styles.statusTextStyle}>Status</Text>
+                  <Text style={styles.orderStatusTextStyle}>
                     {orderStatus[this.state.orderStatusCode]}
                   </Text>
                 </View>
 
                 {this.state.waitTimeVisible ? (
-                  <View
-                    style={{
-                      marginTop: 5,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: 10,
-                        fontWeight: 'bold',
-                        color: '#100A45',
-                      }}>
+                  <View style={styles.modalItemContainer}>
+                    <Text style={styles.timeoutTextStyle}>
                       Approx Wait Time - {this.state.waitTime} Sec
                     </Text>
                   </View>
@@ -583,16 +583,9 @@ class dispenseScreen extends Component {
 
                 {/* visible when feedback time arrives  */}
                 {this.state.feedbackVisible ? (
-                  <View
-                    style={{
-                      marginTop: 20,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Text style={{color: '#6F6D6D', fontSize: 10}}>
-                      Feedback
-                    </Text>
-                    <View style={{marginTop: 5}}>
+                  <View style={styles.modalItemContainer}>
+                    <Text style={styles.feedbackTextStyle}>Feedback</Text>
+                    <View style={styles.modalItemContainer}>
                       <StarRating
                         maxStars={5}
                         starSize={35}
@@ -616,32 +609,24 @@ class dispenseScreen extends Component {
                   </View>
                 ) : null}
                 {this.state.orderStatusCode === ORDER_DISPENSED ? (
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      marginTop: 20,
-                    }}>
+                  <View style={styles.modalItemContainer}>
                     <MaterialCommunityIcons.Button
                       name="check-circle"
                       size={25}
                       color="white"
                       backgroundColor="#100A45"
                       onPress={async () => {
+                        this.setState({modalVisible: false});
                         this.props.navigation.goBack();
                       }}>
-                      <Text style={{fontSize: 15, color: '#ffffff'}}>Done</Text>
+                      <Text style={styles.buttonTextStyle}>Done</Text>
                     </MaterialCommunityIcons.Button>
                   </View>
                 ) : null}
 
                 {this.state.orderStatusCode === PLACE_THE_CUP ? (
                   <View style={{}}>
-                    <View
-                      style={{
-                        marginTop: 20,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
+                    <View style={styles.modalItemContainer}>
                       <Feather.Button
                         name="coffee"
                         size={25}
@@ -654,23 +639,11 @@ class dispenseScreen extends Component {
                             ].productName,
                           );
                         }}>
-                        <Text style={{fontSize: 15, color: '#ffffff'}}>
-                          Dispense
-                        </Text>
+                        <Text style={styles.buttonTextStyle}>Dispense</Text>
                       </Feather.Button>
                     </View>
-                    <View
-                      style={{
-                        marginTop: 10,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}>
-                      <Text
-                        style={{
-                          fontSize: 10,
-                          fontWeight: 'bold',
-                          color: '#100A45',
-                        }}>
+                    <View style={styles.modalItemContainer}>
+                      <Text style={styles.timeoutTextStyle}>
                         Timeout: {this.state.timer}
                       </Text>
                     </View>
@@ -679,11 +652,7 @@ class dispenseScreen extends Component {
 
                 {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
                 this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
-                  <View
-                    style={{
-                      alignItems: 'center',
-                      marginTop: 20,
-                    }}>
+                  <View style={styles.modalItemContainer}>
                     <Feather.Button
                       name="coffee"
                       size={25}
@@ -697,9 +666,7 @@ class dispenseScreen extends Component {
                             .productName,
                         );
                       }}>
-                      <Text style={{fontSize: 15, color: '#ffffff'}}>
-                        Order
-                      </Text>
+                      <Text style={styles.buttonTextStyle}>Order</Text>
                     </Feather.Button>
                   </View>
                 ) : null}
@@ -713,36 +680,52 @@ class dispenseScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  logo: {
-    width: 200,
-    height: 100,
+  mainContainer: {
+    flex: 1,
   },
-  logoContainer: {
-    justifyContent: 'center',
-    marginTop: '50%',
-    alignItems: 'center',
-  },
-  header: {
+  headerContainer: {
+    backgroundColor: '#100A45',
     height: 50,
+    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#b85400',
   },
-  headerText: {
-    color: '#FFFFFF',
+  logoStyleInHeader: {
+    width: '50%',
+    height: '65%',
+    resizeMode: 'contain',
+  },
+  cardContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  productImageStyleInCard: {
+    width: 75,
+    height: 75,
+    borderRadius: 20,
+  },
+  productNameContainerInCard: {
+    justifyContent: 'center',
+    width: '50%',
+  },
+  productNameTextStyle: {
+    textShadowColor: '#100A45',
+    fontSize: 15,
     fontWeight: 'bold',
-    marginLeft: 50,
+    color: '#100A45',
+  },
+  plusIconContainerInCard: {
+    justifyContent: 'center',
+  },
+  plusIconStyleInCard: {
+    color: '#100A45',
   },
   centeredView: {
     flex: 1,
     justifyContent: 'center',
-    marginTop: 50,
-  },
-  restrictedAccessButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   modalView: {
-    margin: 30,
+    margin: '5%',
     backgroundColor: 'white',
     borderRadius: 20,
     borderColor: '#100A45',
@@ -760,9 +743,51 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  productName: {
-    textShadowColor: '#100A45',
+  modalExitIconStyle: {
+    color: '#100A45',
+    left: '95%',
+  },
+  modalItemContainer: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  logoStyleInModal: {
+    width: 100,
+    height: 25,
+  },
+  dispensingGifStyleInModal: {
+    width: 150,
+    height: 150,
+  },
+  productImageStyleInModal: {
+    width: 75,
+    height: 75,
+    borderRadius: 75 / 2,
+  },
+  orderNumberTextStyle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#100A45',
+  },
+  statusTextStyle: {
+    color: '#6F6D6D',
+    fontSize: 10,
+  },
+  orderStatusTextStyle: {
+    marginTop: 5,
+    color: '#100A45',
+    fontSize: 12,
+  },
+  feedbackTextStyle: {
+    color: '#6F6D6D',
+    fontSize: 10,
+  },
+  buttonTextStyle: {
     fontSize: 15,
+    color: '#ffffff',
+  },
+  timeoutTextStyle: {
+    fontSize: 10,
     fontWeight: 'bold',
     color: '#100A45',
   },
