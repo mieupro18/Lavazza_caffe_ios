@@ -470,8 +470,7 @@ class dispenseScreen extends Component {
             visible={this.state.modalVisible}
             onRequestClose={async () => {
               if (
-                this.state.orderStatusCode >=
-                  ORDER_PLACED_AND_NOT_YET_RECEIVED_BY_THE_MACHINE &&
+                this.state.orderStatusCode >= PLEASE_WAIT &&
                 this.state.orderStatusCode <= DISPENSING
               ) {
                 console.log('Please dont go back');
