@@ -36,6 +36,7 @@ import {
   INITIAL_FEEDBACK_INTERVAL,
   ROUTINE_FEEDBACK_INTERVAL,
   HTTP_POLLING_INTERVAL,
+  timeoutForDispense,
   productList,
 } from './macros';
 import getTimeoutSignal from './commonApis';
@@ -59,7 +60,7 @@ class dispenseScreen extends Component {
       orderId: null,
       orderNumber: null,
       waitTime: null,
-      timer: 30,
+      timer: timeoutForDispense,
       machineName: null,
       machineId: null,
     };
@@ -128,6 +129,16 @@ class dispenseScreen extends Component {
     }
   };
 
+  setStateVariablesToInitialState = async () => {
+    this.setState({
+      orderId: null,
+      orderNumberVisible: false,
+      waitTimeVisible: false,
+      orderNumber: null,
+      waitTime: null,
+    });
+  };
+
   stopPollForOrderStatus = async () => {
     clearInterval(this.pollingIntervalId);
   };
@@ -153,8 +164,10 @@ class dispenseScreen extends Component {
         .then(async (resultData) => {
           console.log(resultData);
           if (resultData.status === 'Success') {
-            if (resultData.orderStatus === 'InQueue') {
-              console.log('In-Queue');
+            if (
+              resultData.orderStatus === 'InQueue' ||
+              resultData.orderStatus === 'Dispensing'
+            ) {
               console.log('Continue poll');
             } else if (resultData.orderStatus === 'WaitingToDispense') {
               this.stopPollForOrderStatus();
@@ -170,21 +183,13 @@ class dispenseScreen extends Component {
                 console.log(this.state.timer);
                 if (this.state.timer === 0) {
                   clearInterval(this.timer);
-                  this.setState({timer: 30});
+                  this.setState({timer: timeoutForDispense});
                   this.setState({
                     orderStatusCode: TIMEOUT_EXPIRED,
-                    orderId: null,
-                    orderNumberVisible: false,
-                    waitTimeVisible: false,
-                    orderNumber: null,
-                    waitTime: null,
                   });
+                  this.setStateVariablesToInitialState();
                 }
               }, 1000);
-            } else if (resultData.orderStatus === 'Dispensing') {
-              this.setState({waitTimeVisible: false});
-              console.log('Dispensing');
-              console.log('Continue poll');
             } else if (resultData.orderStatus === 'Dispensed') {
               console.log('Dispensed');
               this.stopPollForOrderStatus();
@@ -210,12 +215,8 @@ class dispenseScreen extends Component {
             this.stopPollForOrderStatus();
             this.setState({
               orderStatusCode: SOMETHING_WENT_WRONG,
-              orderId: null,
-              orderNumberVisible: false,
-              waitTimeVisible: false,
-              orderNumber: null,
-              waitTime: null,
             });
+            this.setStateVariablesToInitialState();
           }
           //console.log(this.state.orderStatusCode);
         })
@@ -223,12 +224,8 @@ class dispenseScreen extends Component {
           this.stopPollForOrderStatus();
           this.setState({
             orderStatusCode: SOMETHING_WENT_WRONG,
-            orderId: null,
-            orderNumberVisible: false,
-            waitTimeVisible: false,
-            orderNumber: null,
-            waitTime: null,
           });
+          this.setStateVariablesToInitialState();
         });
     }, HTTP_POLLING_INTERVAL);
   };
@@ -258,10 +255,7 @@ class dispenseScreen extends Component {
             orderNumber: resultData.orderNo,
             waitTime: resultData.approxWaitTime * 30,
           });
-          console.log(resultData);
-          console.log('ack');
           this.state.orderId = resultData.orderId;
-          console.log(this.state.orderNumber, this.state.waitTime);
           await this.startPollForOrderStatus(productName);
         } else {
           if (resultData.infoText === 'Machine is not Ready') {
@@ -275,17 +269,14 @@ class dispenseScreen extends Component {
         console.log(e);
         this.setState({
           orderStatusCode: SOMETHING_WENT_WRONG,
-          orderNumberVisible: false,
-          waitTimeVisible: false,
-          orderNumber: null,
-          waitTime: null,
         });
+        this.setStateVariablesToInitialState();
       });
   };
 
   startDispense = async (productName) => {
     clearInterval(this.timer);
-    this.setState({timer: 30});
+    this.setState({timer: timeoutForDispense});
     this.setState({orderStatusCode: DISPENSING});
     fetch(
       HTTPS +
@@ -307,7 +298,6 @@ class dispenseScreen extends Component {
         console.log(resultData);
         if (resultData.status === 'Success') {
           console.log('Dispense Starts');
-          //this.setState({orderStatusCode: DISPENSING});
           this.startPollForOrderStatus(productName);
         } else {
           if (resultData.infoText === 'Machine is not Ready') {
@@ -321,24 +311,14 @@ class dispenseScreen extends Component {
           } else {
             this.setState({orderStatusCode: SOMETHING_WENT_WRONG});
           }
-          this.setState({
-            orderId: null,
-            orderNumberVisible: false,
-            waitTimeVisible: false,
-            orderNumber: null,
-            waitTime: null,
-          });
+          this.setStateVariablesToInitialState();
         }
       })
       .catch(async (e) => {
         this.setState({
           orderStatusCode: SOMETHING_WENT_WRONG,
-          orderId: null,
-          orderNumberVisible: false,
-          waitTimeVisible: false,
-          orderNumber: null,
-          waitTime: null,
         });
+        this.setStateVariablesToInitialState();
       });
   };
 
@@ -416,19 +396,7 @@ class dispenseScreen extends Component {
           <Modal
             transparent={true}
             animationType="slide"
-            visible={this.state.modalVisible}
-            onRequestClose={async () => {
-              /*if (
-                this.state.orderStatusCode >= PLEASE_WAIT &&
-                this.state.orderStatusCode <= DISPENSING
-              ) {
-                console.log('Please dont go back');
-              } else if (this.state.orderStatusCode === ORDER_DISPENSED) {
-                this.props.navigation.goBack();
-              } else {
-                this.setState({modalVisible: false, feedbackVisible: false});
-              }*/
-            }}>
+            visible={this.state.modalVisible}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
