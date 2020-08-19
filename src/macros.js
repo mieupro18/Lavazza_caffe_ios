@@ -1,15 +1,22 @@
 // SERVER INFO
-const IPADDRESS = '192.168.1.8';
+const IPADDRESS = '192.168.5.1';
 const HTTPS = 'http';
 const PORT = '9876';
+const FEEDBACK_SERVER_ENDPOINT = 'https://mieupro.pythonanywhere.com/feedback';
 
 // FEEDBACK INTERVAL TIME
-const initialFeedbackInterval = 10800000;
-const routineFeedbackInterval = 86400000;
+//const INITIAL_FEEDBACK_INTERVAL = 10800000;
+//const ROUTINE_FEEDBACK_INTERVAL = 86400000;
+const INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA = 5000;
+
+// POLLING INTERVAL FOR REST CALL
+const HTTP_POLLING_INTERVAL = 4000;
+const SPLASHSCREEN_VISIBLE_TIME = 3000;
+const timeoutForDispense = 30;
 
 // FEEDBACK INTERVAL TIME
-//const initialFeedbackInterval = 60000;
-//const routineFeedbackInterval = 60000;
+const INITIAL_FEEDBACK_INTERVAL = 60000;
+const ROUTINE_FEEDBACK_INTERVAL = 60000;
 
 // ORDER POSITIVE STATUS CODE
 const BEFORE_PLACING_ORDER = 0;
@@ -41,10 +48,91 @@ const orderStatus = {
   10: 'Rinsing',
   11: '         Milk is not ready\nPlease try after sometime',
 };
+
+const productList = [
+  {
+    productName: 'Cappuccino',
+    src: require('../assets/cappuccino.jpg'),
+  },
+  {
+    productName: 'Espresso',
+    src: require('../assets/espresso.jpg'),
+  },
+  {
+    productName: 'Milk',
+    src: require('../assets/milk.jpg'),
+  },
+  {
+    productName: 'South Indian Coffee Light',
+    src: require('../assets/SIC_light.jpg'),
+  },
+  {
+    productName: 'South Indian Coffee Strong',
+    src: require('../assets/SIC_strong.jpg'),
+  },
+  {
+    productName: 'Tea Milk',
+    src: require('../assets/tea_milk.jpg'),
+  },
+  {
+    productName: 'Tea Water',
+    src: require('../assets/tea_water.jpg'),
+  },
+  {
+    productName: 'Lemon Tea',
+    src: require('../assets/lemon_tea.png'),
+  },
+  {
+    productName: 'Ristretto',
+    src: require('../assets/ristretto.jpg'),
+  },
+  {
+    productName: 'Macchiato',
+    src: require('../assets/macchiato.jpg'),
+  },
+  {
+    productName: 'Hot Water',
+    src: require('../assets/hot_water.jpg'),
+  },
+  {
+    productName: 'Hot Chocolate',
+    src: require('../assets/hot_chocolate.jpg'),
+  },
+  {
+    productName: 'Horlicks',
+    src: require('../assets/horlicks.jpg'),
+  },
+  {
+    productName: 'Green Tea',
+    src: require('../assets/green_tea.jpg'),
+  },
+  {
+    productName: 'Caffe Latte',
+    src: require('../assets/caffe_latte.jpg'),
+  },
+  {
+    productName: 'Black Tea',
+    src: require('../assets/black_tea.jpg'),
+  },
+  {
+    productName: 'Black Coffee',
+    src: require('../assets/black_coffee.jpg'),
+  },
+  {
+    productName: 'Hot Milk',
+    src: require('../assets/hot_milk.jpg'),
+  },
+  {
+    productName: 'Badam Milk',
+    src: require('../assets/badam_milk.jpg'),
+  },
+];
+
 export {
   IPADDRESS,
   HTTPS,
   PORT,
+  FEEDBACK_SERVER_ENDPOINT,
   BEFORE_PLACING_ORDER,
   PLEASE_WAIT,
   ORDER_PLACED_AND_RECEIVED_BY_THE_MACHINE,
@@ -57,7 +145,12 @@ export {
   FOAMER_OFF,
   RINSING,
   MILK_NOT_READY,
+  INITIAL_FEEDBACK_INTERVAL,
+  ROUTINE_FEEDBACK_INTERVAL,
+  INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
+  HTTP_POLLING_INTERVAL,
+  SPLASHSCREEN_VISIBLE_TIME,
   orderStatus,
-  initialFeedbackInterval,
-  routineFeedbackInterval,
+  productList,
+  timeoutForDispense,
 };
