@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 import 'react-native-gesture-handler'; 
-import React, {Component} from 'react';
+import React from 'react';
 
 import dispenseScreen from './src/dispenseScreen';
 import {createStackNavigator} from '@react-navigation/stack';

@@ -12,7 +12,11 @@ import {
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
 import BackgroundTimer from 'react-native-background-timer';
-
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+} from 'react-native-responsive-dimensions';
 import {
   IPADDRESS,
   PORT,
@@ -22,7 +26,6 @@ import {
   SPLASHSCREEN_VISIBLE_TIME,
 } from './macros';
 import getTimeoutSignal from './commonApis';
-
 export default class connectScreen extends Component {
   constructor(props) {
     super(props);
@@ -32,8 +35,8 @@ export default class connectScreen extends Component {
       isBackgroundTimerOn: false,
     };
   }
-
   async componentDidMount() {
+    //console.log(responsiveScreenHeight(15))
     AppState.addEventListener('change', this.handleAppStateChange);
     setTimeout(async () => {
       this.setState({
@@ -41,11 +44,9 @@ export default class connectScreen extends Component {
       });
     }, SPLASHSCREEN_VISIBLE_TIME);
   }
-
   async componentWillUnmount() {
     AppState.removeEventListener('change');
   }
-
   // Sending collected Feedback data to remote server
   // when mobile gets internet connection
   sendFeedbackData = async (feedbackData) => {
@@ -76,10 +77,9 @@ export default class connectScreen extends Component {
       console.log('no internet connection');
     }
   };
-
   handleAppStateChange = async (state) => {
     try {
-      if (state === 'inactive') {
+      if (state === 'background' || state === 'inactive') {
         console.log('background');
         var feedbackData = JSON.parse(
           await AsyncStorage.getItem('feedbackData'),
@@ -105,7 +105,6 @@ export default class connectScreen extends Component {
       console.log('Background error', error);
     }
   };
-
   onConnect = async () => {
     this.setState({isLoading: true});
     console.log('get Product Info');
@@ -142,7 +141,6 @@ export default class connectScreen extends Component {
         this.setState({isLoading: false});
       });
   };
-
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -155,11 +153,12 @@ export default class connectScreen extends Component {
           </View>
         ) : (
           <View style={styles.centeredViewContainer}>
-            <Image
-              style={styles.logo}
-              source={require('../assets/lavazza_logo_with_year.png')}
-            />
-
+            <View style={styles.logoContainer}>
+              <Image
+                style={styles.logo}
+                source={require('../assets/lavazza_logo_with_year.png')}
+              />
+            </View>
             <View style={styles.gifContainer}>
               <Image
                 style={styles.gif}
@@ -191,21 +190,20 @@ export default class connectScreen extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFFFFF',
   },
   splashScreenLogoContainer: {
-    height: 200,
+    flex: 1,
+    height: responsiveScreenHeight(20),
     justifyContent: 'center',
-    marginTop: '50%',
     alignItems: 'center',
   },
   splashScreenLogo: {
-    width: '50%',
-    height: '75%',
+    width: responsiveScreenWidth(50),
+    height: '100%',
     resizeMode: 'contain',
   },
   centeredViewContainer: {
@@ -213,39 +211,45 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  logoContainer: {
+    height: responsiveScreenHeight(13),
+    alignItems: 'center',
+  },
   logo: {
-    height: 100,
+    height: '100%',
     resizeMode: 'contain',
   },
   gifContainer: {
-    borderRadius: 115,
+    borderRadius: responsiveScreenWidth(25),
     overflow: 'hidden',
   },
   gif: {
-    width: 230,
-    height: 230,
+    width: responsiveScreenWidth(50),
+    height: responsiveScreenWidth(50),
   },
   loadingActivityContainer: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: '5%',
   },
   loadingActivityTextStyle: {
     color: '#100A45',
-    fontWeight: 'bold',
+		fontWeight: 'bold',
+		fontSize: responsiveScreenFontSize(2),
   },
   connectButtonContainer: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: '5%',
   },
   connectButtonStyle: {
-    width: 100,
-    height: 40,
-    borderRadius: 5,
+    width: responsiveScreenWidth(30),
+    height: responsiveScreenHeight(5),
+    borderRadius: responsiveScreenHeight(1),
     backgroundColor: '#100A45',
     alignItems: 'center',
     justifyContent: 'center',
   },
   connectButtonTextStyle: {
     color: 'white',
+    fontSize: responsiveScreenFontSize(2),
   },
 });

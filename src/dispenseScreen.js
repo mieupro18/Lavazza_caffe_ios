@@ -12,10 +12,14 @@ import {
 import {Card, CardItem} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import StarRating from 'react-native-star-rating';
-import Icon from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+} from 'react-native-responsive-dimensions';
 import {
   IPADDRESS,
   HTTPS,
@@ -41,9 +45,8 @@ import {
 } from './macros';
 import getTimeoutSignal from './commonApis';
 
-Icon.loadFont();
-Feather.loadFont();
 MaterialCommunityIcons.loadFont();
+MaterialIcons.loadFont();
 
 class dispenseScreen extends Component {
   constructor(props) {
@@ -379,9 +382,9 @@ class dispenseScreen extends Component {
                         </Text>
                       </View>
                       <View style={styles.plusIconContainerInCard}>
-                        <Icon
-                          name="circle-with-plus"
-                          size={35}
+                        <MaterialCommunityIcons
+                          name="plus-circle"
+                          size={responsiveScreenHeight(4)}
                           style={styles.plusIconStyleInCard}
                         />
                       </View>
@@ -401,18 +404,17 @@ class dispenseScreen extends Component {
               <View style={styles.modalView}>
                 {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
                 this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
-                  <Icon
-                    name="circle-with-cross"
+                  <MaterialCommunityIcons
+                    name="close-circle"
                     style={styles.modalExitIconStyle}
                     onPress={() => {
                       this.setState({
                         modalVisible: !this.state.modalVisible,
                       });
                     }}
-                    size={30}
+                    size={responsiveScreenHeight(3.5)}
                   />
                 ) : null}
-
                 <View style={styles.modalItemContainer}>
                   <Image
                     style={styles.logoStyleInModal}
@@ -452,14 +454,12 @@ class dispenseScreen extends Component {
                     </Text>
                   </View>
                 ) : null}
-
                 <View style={styles.modalItemContainer}>
                   <Text style={styles.statusTextStyle}>Status</Text>
                   <Text style={styles.orderStatusTextStyle}>
                     {orderStatus[this.state.orderStatusCode]}
                   </Text>
                 </View>
-
                 {this.state.waitTimeVisible ? (
                   <View style={styles.modalItemContainer}>
                     <Text style={styles.timeoutTextStyle}>
@@ -467,7 +467,6 @@ class dispenseScreen extends Component {
                     </Text>
                   </View>
                 ) : null}
-
                 {/* visible when feedback time arrives  */}
                 {this.state.feedbackVisible ? (
                   <View style={styles.modalItemContainer}>
@@ -475,15 +474,15 @@ class dispenseScreen extends Component {
                     <View style={styles.modalItemContainer}>
                       <StarRating
                         maxStars={5}
-                        starSize={35}
-                        emptyStar="star-outlined"
+                        starSize={responsiveScreenHeight(5)}
+                        emptyStar="star-border"
                         fullStar="star"
-                        iconSet="Entypo"
+                        iconSet="MaterialIcons"
                         emptyStarColor="#6F6D6D"
                         fullStarColor="#100A45"
                         halfStarEnabled={false}
                         rating={this.state.starCount}
-                        selectedStar={(rating) =>
+                        selectedStar={rating =>
                           this.onStarRatingPress(
                             rating,
                             this.state.deviceProductList[
@@ -499,7 +498,7 @@ class dispenseScreen extends Component {
                   <View style={styles.modalItemContainer}>
                     <MaterialCommunityIcons.Button
                       name="check-circle"
-                      size={25}
+                      size={responsiveScreenHeight(3)}
                       color="white"
                       backgroundColor="#100A45"
                       onPress={async () => {
@@ -510,13 +509,12 @@ class dispenseScreen extends Component {
                     </MaterialCommunityIcons.Button>
                   </View>
                 ) : null}
-
                 {this.state.orderStatusCode === PLACE_THE_CUP ? (
                   <View style={{}}>
                     <View style={styles.modalItemContainer}>
-                      <Feather.Button
+                      <MaterialCommunityIcons.Button
                         name="coffee"
-                        size={25}
+                        size={responsiveScreenHeight(3)}
                         color="white"
                         backgroundColor="#100A45"
                         onPress={async () => {
@@ -527,7 +525,7 @@ class dispenseScreen extends Component {
                           );
                         }}>
                         <Text style={styles.buttonTextStyle}>Dispense</Text>
-                      </Feather.Button>
+                      </MaterialCommunityIcons.Button>
                     </View>
                     <View style={styles.modalItemContainer}>
                       <Text style={styles.timeoutTextStyle}>
@@ -536,13 +534,12 @@ class dispenseScreen extends Component {
                     </View>
                   </View>
                 ) : null}
-
                 {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
                 this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
                   <View style={styles.modalItemContainer}>
-                    <Feather.Button
-                      name="coffee"
-                      size={25}
+                    <MaterialCommunityIcons.Button
+                      name="check-circle"
+                      size={responsiveScreenHeight(3)}
                       color="white"
                       backgroundColor="#100A45"
                       onPress={async () => {
@@ -554,7 +551,7 @@ class dispenseScreen extends Component {
                         );
                       }}>
                       <Text style={styles.buttonTextStyle}>Order</Text>
-                    </Feather.Button>
+                    </MaterialCommunityIcons.Button>
                   </View>
                 ) : null}
               </View>
@@ -565,44 +562,44 @@ class dispenseScreen extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
   headerContainer: {
     backgroundColor: '#100A45',
-    height: 50,
+    height: responsiveScreenHeight(7),
     alignItems: 'center',
     justifyContent: 'center',
   },
   logoStyleInHeader: {
-    width: '50%',
-    height: '65%',
+    width: responsiveScreenWidth(50),
+    height: responsiveScreenHeight(5),
     resizeMode: 'contain',
   },
   cardContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
+    width: responsiveScreenWidth(100),
   },
   productImageStyleInCard: {
-    width: 75,
-    height: 75,
-    borderRadius: 20,
+    width: responsiveScreenWidth(20),
+    height: responsiveScreenWidth(20),
+    borderRadius: responsiveScreenWidth(5),
   },
   productNameContainerInCard: {
     justifyContent: 'center',
-    width: '50%',
+    width: responsiveScreenWidth(50),
   },
   productNameTextStyle: {
     textShadowColor: '#100A45',
-    fontSize: 15,
+    fontSize: responsiveScreenFontSize(2.2),
     fontWeight: 'bold',
     color: '#100A45',
   },
   plusIconContainerInCard: {
     justifyContent: 'center',
+    width: responsiveScreenWidth(20),
   },
   plusIconStyleInCard: {
     color: '#100A45',
@@ -614,70 +611,62 @@ const styles = StyleSheet.create({
   modalView: {
     margin: '5%',
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderRadius: responsiveScreenWidth(5),
     borderColor: '#100A45',
-    borderWidth: 1.5,
-    paddingLeft: 35,
-    paddingRight: 35,
-    paddingBottom: 35,
-    paddingTop: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderWidth: responsiveScreenWidth(0.5),
+    paddingLeft: responsiveScreenWidth(5),
+    paddingRight: responsiveScreenWidth(5),
+    paddingBottom: responsiveScreenWidth(5),
+    paddingTop: responsiveScreenWidth(2),
   },
   modalExitIconStyle: {
     color: '#100A45',
     left: '95%',
   },
   modalItemContainer: {
-    marginTop: 10,
+    marginTop: '3%',
     alignItems: 'center',
   },
   logoStyleInModal: {
-    width: 100,
-    height: 25,
+    width: responsiveScreenWidth(50),
+    height: responsiveScreenHeight(4),
+    resizeMode: 'contain',
   },
   dispensingGifStyleInModal: {
-    width: 150,
-    height: 150,
+    width: responsiveScreenWidth(40),
+    height: responsiveScreenWidth(40),
   },
   productImageStyleInModal: {
-    width: 75,
-    height: 75,
-    borderRadius: 75 / 2,
+    width: responsiveScreenWidth(20),
+    height: responsiveScreenWidth(20),
+    borderRadius: responsiveScreenWidth(10),
   },
   orderNumberTextStyle: {
-    fontSize: 12,
+    fontSize: responsiveScreenFontSize(2),
     fontWeight: 'bold',
     color: '#100A45',
   },
   statusTextStyle: {
     color: '#6F6D6D',
-    fontSize: 10,
+    fontSize: responsiveScreenFontSize(1.8),
   },
   orderStatusTextStyle: {
     marginTop: 5,
     color: '#100A45',
-    fontSize: 12,
+    fontSize: responsiveScreenFontSize(2),
   },
   feedbackTextStyle: {
     color: '#6F6D6D',
-    fontSize: 10,
+    fontSize: responsiveScreenFontSize(1.8),
   },
   buttonTextStyle: {
-    fontSize: 15,
-    color: '#ffffff',
+    fontSize: responsiveScreenFontSize(2),
+    color: '#FFFFFF',
   },
   timeoutTextStyle: {
-    fontSize: 10,
+    fontSize: responsiveScreenFontSize(1.8),
     fontWeight: 'bold',
     color: '#100A45',
   },
 });
-
 export default dispenseScreen;
