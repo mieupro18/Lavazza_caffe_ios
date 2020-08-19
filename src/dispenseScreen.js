@@ -397,7 +397,7 @@ class dispenseScreen extends Component {
         </ScrollView>
         {this.state.deviceProductList.length > 0 ? (
           <Modal
-            transparent={true}
+            transparent={false}
             animationType="slide"
             visible={this.state.modalVisible}>
             <View style={styles.centeredView}>
@@ -583,8 +583,8 @@ const styles = StyleSheet.create({
     width: responsiveScreenWidth(100),
   },
   productImageStyleInCard: {
-    width: responsiveScreenWidth(20),
-    height: responsiveScreenWidth(20),
+    width: responsiveScreenWidth(18),
+    height: responsiveScreenWidth(18),
     borderRadius: responsiveScreenWidth(5),
   },
   productNameContainerInCard: {
@@ -593,7 +593,7 @@ const styles = StyleSheet.create({
   },
   productNameTextStyle: {
     textShadowColor: '#100A45',
-    fontSize: responsiveScreenFontSize(2.2),
+    fontSize: responsiveScreenFontSize(1.8),
     fontWeight: 'bold',
     color: '#100A45',
   },
@@ -628,7 +628,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logoStyleInModal: {
-    width: responsiveScreenWidth(50),
+    width: responsiveScreenWidth(25),
     height: responsiveScreenHeight(4),
     resizeMode: 'contain',
   },
@@ -642,29 +642,29 @@ const styles = StyleSheet.create({
     borderRadius: responsiveScreenWidth(10),
   },
   orderNumberTextStyle: {
-    fontSize: responsiveScreenFontSize(2),
+    fontSize: responsiveScreenFontSize(1.5),
     fontWeight: 'bold',
     color: '#100A45',
   },
   statusTextStyle: {
     color: '#6F6D6D',
-    fontSize: responsiveScreenFontSize(1.8),
+    fontSize: responsiveScreenFontSize(1.3),
   },
   orderStatusTextStyle: {
     marginTop: 5,
     color: '#100A45',
-    fontSize: responsiveScreenFontSize(2),
+    fontSize: responsiveScreenFontSize(1.5),
   },
   feedbackTextStyle: {
     color: '#6F6D6D',
-    fontSize: responsiveScreenFontSize(1.8),
+    fontSize: responsiveScreenFontSize(1.3),
   },
   buttonTextStyle: {
-    fontSize: responsiveScreenFontSize(2),
+    fontSize: responsiveScreenFontSize(1.5),
     color: '#FFFFFF',
   },
   timeoutTextStyle: {
-    fontSize: responsiveScreenFontSize(1.8),
+    fontSize: responsiveScreenFontSize(1.3),
     fontWeight: 'bold',
     color: '#100A45',
   },
