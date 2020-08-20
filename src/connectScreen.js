@@ -233,8 +233,8 @@ const styles = StyleSheet.create({
   },
   loadingActivityTextStyle: {
     color: '#100A45',
-		fontWeight: 'bold',
-		fontSize: responsiveScreenFontSize(1.8),
+    fontWeight: 'bold',
+    fontSize: responsiveScreenFontSize(1.8),
   },
   connectButtonContainer: {
     alignItems: 'center',
