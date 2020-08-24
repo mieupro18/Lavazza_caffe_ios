@@ -8,13 +8,13 @@ import {
   Text,
   Modal,
   AppState,
+  TouchableOpacity,
 } from 'react-native';
 import {Card, CardItem} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import StarRating from 'react-native-star-rating';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
