@@ -23,14 +23,12 @@ import {
   HTTPS,
   FEEDBACK_SERVER_ENDPOINT,
   INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
-  SPLASHSCREEN_VISIBLE_TIME,
 } from './macros';
 import getTimeoutSignal from './commonApis';
 export default class connectScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      splashScreenVisible: true,
       isLoading: false,
       isBackgroundTimerOn: false,
     };
@@ -38,11 +36,6 @@ export default class connectScreen extends Component {
   async componentDidMount() {
     //console.log(responsiveScreenHeight(15))
     AppState.addEventListener('change', this.handleAppStateChange);
-    setTimeout(async () => {
-      this.setState({
-        splashScreenVisible: false,
-      });
-    }, SPLASHSCREEN_VISIBLE_TIME);
   }
   async componentWillUnmount() {
     AppState.removeEventListener('change');
@@ -144,48 +137,39 @@ export default class connectScreen extends Component {
   render() {
     return (
       <View style={styles.mainContainer}>
-        {this.state.splashScreenVisible ? (
-          <View style={styles.splashScreenLogoContainer}>
+        <View style={styles.centeredViewContainer}>
+          <View style={styles.logoContainer}>
             <Image
-              style={styles.splashScreenLogo}
+              style={styles.logo}
               source={require('../assets/lavazza_logo_with_year.png')}
             />
           </View>
-        ) : (
-          <View style={styles.centeredViewContainer}>
-            <View style={styles.logoContainer}>
-              <Image
-                style={styles.logo}
-                source={require('../assets/lavazza_logo_with_year.png')}
-              />
-            </View>
-            <View style={styles.gifContainer}>
-              <Image
-                style={styles.gif}
-                source={require('../assets/connect.gif')}
-              />
-            </View>
-            {this.state.isLoading ? (
-              <View style={styles.loadingActivityContainer}>
-                <ActivityIndicator size="small" color="#100A45" />
-                <Text style={styles.loadingActivityTextStyle}>
-                  Connecting...!
-                </Text>
-              </View>
-            ) : (
-              <View style={styles.connectButtonContainer}>
-                <TouchableHighlight
-                  underlayColor="#100A45"
-                  style={styles.connectButtonStyle}
-                  onPress={() => {
-                    this.onConnect();
-                  }}>
-                  <Text style={styles.connectButtonTextStyle}>Connect</Text>
-                </TouchableHighlight>
-              </View>
-            )}
+          <View style={styles.gifContainer}>
+            <Image
+              style={styles.gif}
+              source={require('../assets/connect.gif')}
+            />
           </View>
-        )}
+          {this.state.isLoading ? (
+            <View style={styles.loadingActivityContainer}>
+              <ActivityIndicator size="small" color="#100A45" />
+              <Text style={styles.loadingActivityTextStyle}>
+                Connecting...!
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.connectButtonContainer}>
+              <TouchableHighlight
+                underlayColor="#100A45"
+                style={styles.connectButtonStyle}
+                onPress={() => {
+                  this.onConnect();
+                }}>
+                <Text style={styles.connectButtonTextStyle}>Connect</Text>
+              </TouchableHighlight>
+            </View>
+          )}
+        </View>
       </View>
     );
   }
@@ -194,17 +178,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-  },
-  splashScreenLogoContainer: {
-    flex: 1,
-    height: responsiveScreenHeight(20),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  splashScreenLogo: {
-    width: responsiveScreenWidth(50),
-    height: '100%',
-    resizeMode: 'contain',
   },
   centeredViewContainer: {
     flex: 1,
