@@ -77,7 +77,7 @@ export default class connectScreen extends Component {
 
   handleAppStateChange = async (state) => {
     try {
-      if (state === 'background' || state === 'inactive') {
+      if (state === 'background') {
         console.log('background');
         var feedbackData = JSON.parse(
           await AsyncStorage.getItem('feedbackData'),
