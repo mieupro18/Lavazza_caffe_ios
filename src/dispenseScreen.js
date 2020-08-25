@@ -73,9 +73,7 @@ class dispenseScreen extends Component {
     this.showProductList(this.props.route.params.productList);
   }
 
-  async componentWillUnmount() {
-    AppState.removeEventListener('change');
-  }
+  async componentWillUnmount() {}
 
   showProductList = async (produtList) => {
     console.log('show Product list');

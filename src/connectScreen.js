@@ -41,7 +41,7 @@ export default class connectScreen extends Component {
   }
 
   async componentWillUnmount() {
-    AppState.removeEventListener('change');
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
   // Sending collected Feedback data to remote server
