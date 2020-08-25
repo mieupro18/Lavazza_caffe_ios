@@ -17,6 +17,7 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
+
 import {
   IPADDRESS,
   PORT,
@@ -25,6 +26,7 @@ import {
   INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
 } from './macros';
 import getTimeoutSignal from './commonApis';
+
 export default class connectScreen extends Component {
   constructor(props) {
     super(props);
@@ -33,13 +35,15 @@ export default class connectScreen extends Component {
       isBackgroundTimerOn: false,
     };
   }
+
   async componentDidMount() {
-    //console.log(responsiveScreenHeight(15))
     AppState.addEventListener('change', this.handleAppStateChange);
   }
+
   async componentWillUnmount() {
     AppState.removeEventListener('change');
   }
+
   // Sending collected Feedback data to remote server
   // when mobile gets internet connection
   sendFeedbackData = async (feedbackData) => {
@@ -70,6 +74,7 @@ export default class connectScreen extends Component {
       console.log('no internet connection');
     }
   };
+
   handleAppStateChange = async (state) => {
     try {
       if (state === 'background' || state === 'inactive') {
@@ -98,6 +103,7 @@ export default class connectScreen extends Component {
       console.log('Background error', error);
     }
   };
+
   onConnect = async () => {
     this.setState({isLoading: true});
     console.log('get Product Info');
@@ -134,6 +140,7 @@ export default class connectScreen extends Component {
         this.setState({isLoading: false});
       });
   };
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -144,6 +151,7 @@ export default class connectScreen extends Component {
               source={require('../assets/lavazza_logo_with_year.png')}
             />
           </View>
+
           <View style={styles.gifContainer}>
             <Image
               style={styles.gif}
@@ -174,10 +182,11 @@ export default class connectScreen extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ffffff',
   },
   centeredViewContainer: {
     flex: 1,

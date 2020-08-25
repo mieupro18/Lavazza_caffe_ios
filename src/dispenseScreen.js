@@ -415,6 +415,7 @@ class dispenseScreen extends Component {
                     size={responsiveScreenHeight(3.5)}
                   />
                 ) : null}
+
                 <View style={styles.modalItemContainer}>
                   <Image
                     style={styles.logoStyleInModal}
@@ -454,12 +455,14 @@ class dispenseScreen extends Component {
                     </Text>
                   </View>
                 ) : null}
+
                 <View style={styles.modalItemContainer}>
                   <Text style={styles.statusTextStyle}>Status</Text>
                   <Text style={styles.orderStatusTextStyle}>
                     {orderStatus[this.state.orderStatusCode]}
                   </Text>
                 </View>
+
                 {this.state.waitTimeVisible ? (
                   <View style={styles.modalItemContainer}>
                     <Text style={styles.timeoutTextStyle}>
@@ -467,6 +470,7 @@ class dispenseScreen extends Component {
                     </Text>
                   </View>
                 ) : null}
+
                 {/* visible when feedback time arrives  */}
                 {this.state.feedbackVisible ? (
                   <View style={styles.modalItemContainer}>
@@ -509,6 +513,7 @@ class dispenseScreen extends Component {
                     </MaterialCommunityIcons.Button>
                   </View>
                 ) : null}
+
                 {this.state.orderStatusCode === PLACE_THE_CUP ? (
                   <View style={{}}>
                     <View style={styles.modalItemContainer}>
@@ -534,6 +539,7 @@ class dispenseScreen extends Component {
                     </View>
                   </View>
                 ) : null}
+
                 {this.state.orderStatusCode === BEFORE_PLACING_ORDER ||
                 this.state.orderStatusCode >= SOMETHING_WENT_WRONG ? (
                   <View style={styles.modalItemContainer}>
@@ -562,6 +568,7 @@ class dispenseScreen extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -661,7 +668,7 @@ const styles = StyleSheet.create({
   },
   buttonTextStyle: {
     fontSize: responsiveScreenFontSize(1.5),
-    color: '#FFFFFF',
+    color: '#ffffff',
   },
   timeoutTextStyle: {
     fontSize: responsiveScreenFontSize(1.3),
@@ -669,4 +676,5 @@ const styles = StyleSheet.create({
     color: '#100A45',
   },
 });
+
 export default dispenseScreen;

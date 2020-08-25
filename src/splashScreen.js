@@ -5,15 +5,18 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
+
 export default class splashScreen extends Component {
   constructor(props) {
     super(props);
   }
+
   async componentDidMount() {
     setTimeout(async () => {
       this.props.navigation.replace('connectScreen');
     }, SPLASHSCREEN_VISIBLE_TIME);
   }
+
   async componentWillUnmount() {}
 
   render() {
@@ -29,10 +32,11 @@ export default class splashScreen extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ffffff',
   },
   splashScreenLogoContainer: {
     flex: 1,

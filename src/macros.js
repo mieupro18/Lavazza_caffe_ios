@@ -4,6 +4,9 @@ const HTTPS = 'http';
 const PORT = '9876';
 const FEEDBACK_SERVER_ENDPOINT = 'https://mieupro.pythonanywhere.com/feedback';
 
+// OS types
+const ANDROID = 'android';
+const IOS = 'ios';
 // FEEDBACK INTERVAL TIME in ms
 //const INITIAL_FEEDBACK_INTERVAL = 10800000;
 //const ROUTINE_FEEDBACK_INTERVAL = 86400000;
@@ -19,7 +22,7 @@ const timeoutForDispense = 30;
 // FEEDBACK INTERVAL TIME in ms
 const INITIAL_FEEDBACK_INTERVAL = 60000;
 const ROUTINE_FEEDBACK_INTERVAL = 60000;
-const INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA = 5000;
+const INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA = 10000;
 
 // ORDER POSITIVE STATUS CODE
 const BEFORE_PLACING_ORDER = 0;
@@ -156,4 +159,6 @@ export {
   orderStatus,
   productList,
   timeoutForDispense,
+  ANDROID,
+  IOS,
 };
