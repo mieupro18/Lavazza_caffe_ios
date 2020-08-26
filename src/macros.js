@@ -58,79 +58,115 @@ const orderStatus = {
 const productList = [
   {
     productName: 'Cappuccino',
-    src: require('../assets/cappuccino.jpg'),
+    src: require('../assets/Cappuccino_or_Macchiato.jpg'),
   },
   {
     productName: 'Espresso',
-    src: require('../assets/espresso.jpg'),
-  },
-  {
-    productName: 'Milk',
-    src: require('../assets/milk.jpg'),
-  },
-  {
-    productName: 'South Indian Coffee Light',
-    src: require('../assets/SIC_light.jpg'),
-  },
-  {
-    productName: 'South Indian Coffee Strong',
-    src: require('../assets/SIC_strong.jpg'),
-  },
-  {
-    productName: 'Tea Milk',
-    src: require('../assets/tea_milk.jpg'),
-  },
-  {
-    productName: 'Tea Water',
-    src: require('../assets/tea_water.jpg'),
-  },
-  {
-    productName: 'Lemon Tea',
-    src: require('../assets/lemon_tea.png'),
-  },
-  {
-    productName: 'Ristretto',
-    src: require('../assets/ristretto.jpg'),
-  },
-  {
-    productName: 'Macchiato',
-    src: require('../assets/macchiato.jpg'),
-  },
-  {
-    productName: 'Hot Water',
-    src: require('../assets/hot_water.jpg'),
-  },
-  {
-    productName: 'Hot Chocolate',
-    src: require('../assets/hot_chocolate.jpg'),
-  },
-  {
-    productName: 'Horlicks',
-    src: require('../assets/horlicks.jpg'),
-  },
-  {
-    productName: 'Green Tea',
-    src: require('../assets/green_tea.jpg'),
-  },
-  {
-    productName: 'Caffe Latte',
-    src: require('../assets/caffe_latte.jpg'),
-  },
-  {
-    productName: 'Black Tea',
-    src: require('../assets/black_tea.jpg'),
-  },
-  {
-    productName: 'Black Coffee',
-    src: require('../assets/black_coffee.jpg'),
+    src: require('../assets/Espresso_or_Black_Coffee.jpg'),
   },
   {
     productName: 'Hot Milk',
-    src: require('../assets/hot_milk.jpg'),
+    src: require('../assets/Hot_Milk.jpg'),
+  },
+  {
+    productName: 'South Indian Coffee Light',
+    src: require('../assets/South_Indian_Coffee_Light.jpg'),
+  },
+  {
+    productName: 'South Indian Coffee Strong',
+    src: require('../assets/South_Indian_Coffee_Strong.jpg'),
+  },
+  {
+    productName: 'Tea Milk',
+    src: require('../assets/Tea_Milk.jpg'),
+  },
+  {
+    productName: 'Tea Water',
+    src: require('../assets/Tea_Water.jpg'),
+  },
+  {
+    productName: 'Lemon Tea',
+    src: require('../assets/Lemon_Tea.jpg'),
+  },
+  {
+    productName: 'Ristretto',
+    src: require('../assets/Ristretto.jpg'),
+  },
+  {
+    productName: 'Macchiato',
+    src: require('../assets/Cappuccino_or_Macchiato.jpg'),
+  },
+  {
+    productName: 'Hot Water',
+    src: require('../assets/Hot_Water.jpg'),
+  },
+  {
+    productName: 'Hot Chocolate',
+    src: require('../assets/Hot_Chocolate.jpg'),
+  },
+  {
+    productName: 'Horlicks',
+    src: require('../assets/Horlicks.jpg'),
+  },
+  {
+    productName: 'Green Tea',
+    src: require('../assets/Green_Tea.jpg'),
+  },
+  {
+    productName: 'Caffe Latte',
+    src: require('../assets/Caffe_Latte.jpg'),
+  },
+  {
+    productName: 'Black Tea',
+    src: require('../assets/Black_Tea_or_Boiled_Tea.jpg'),
+  },
+  {
+    productName: 'Boiled Tea',
+    src: require('../assets/Black_Tea_or_Boiled_Tea.jpg'),
+  },
+  {
+    productName: 'Black Coffee',
+    src: require('../assets/Espresso_or_Black_Coffee.jpg'),
   },
   {
     productName: 'Badam Milk',
-    src: require('../assets/badam_milk.jpg'),
+    src: require('../assets/Badam_Milk.jpg'),
+  },
+  {
+    productName: 'Corn Flakes',
+    src: require('../assets/Corn_Flakes.jpg'),
+  },
+  {
+    productName: 'Cup Noodles',
+    src: require('../assets/Cup_Noodles.jpg'),
+  },
+  {
+    productName: 'Filter Coffee',
+    src: require('../assets/Filter_Coffee.jpg'),
+  },
+  {
+    productName: 'Mug Smoodle',
+    src: require('../assets/Mug_Smoodle.jpg'),
+  },
+  {
+    productName: 'Steam',
+    src: require('../assets/Steam.jpg'),
+  },
+  {
+    productName: 'Sugarless Cereals',
+    src: require('../assets/Sugarless_Cereals.jpg'),
+  },
+  {
+    productName: 'Soup',
+    src: require('../assets/Soup.jpg'),
+  },
+  {
+    productName: 'Tomato Soup',
+    src: require('../assets/Tomato_Soup.jpg'),
+  },
+  {
+    productName: 'Vegetable Soup',
+    src: require('../assets/Vegetable_Soup.jpg'),
   },
 ];
 

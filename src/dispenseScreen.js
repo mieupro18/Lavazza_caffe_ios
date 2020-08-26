@@ -75,10 +75,10 @@ export default class DispenseScreen extends Component {
 
   async componentWillUnmount() {}
 
-  showProductList = async (produtList) => {
+  showProductList = async (machineProdutList) => {
     console.log('show Product list');
     let deviceProductList = [];
-    await produtList.map(async (product) => {
+    await machineProdutList.map(async (product) => {
       let filterProduct = productList.find(
         (allproduct) => allproduct.productName === product.productName,
       );
