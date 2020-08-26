@@ -27,7 +27,7 @@ import {
 } from './macros';
 import getTimeoutSignal from './commonApis';
 
-export default class connectScreen extends Component {
+export default class ConnectScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
