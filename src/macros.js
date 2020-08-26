@@ -14,7 +14,7 @@ const IOS = 'ios';
 
 // POLLING INTERVAL FOR REST CALL in ms
 const HTTP_POLLING_INTERVAL = 4000;
-const SPLASHSCREEN_VISIBLE_TIME = 3000;
+const SPLASHSCREEN_VISIBLE_TIME = 2000;
 
 // Dispense timeout in sec
 const timeoutForDispense = 30;
