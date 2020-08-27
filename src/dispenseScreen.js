@@ -80,10 +80,10 @@ export default class DispenseScreen extends Component {
     let deviceProductList = [];
     await machineProdutList.map(async (product) => {
       let filterProduct = productList.find(
-        (allproduct) => allproduct.productName === product.productName,
+        (allproduct) => allproduct.productId === product.productId,
       );
-      filterProduct.productId = product.productId;
-      deviceProductList.push(filterProduct);
+      product.src = filterProduct.src;
+      deviceProductList.push(product);
     });
     this.setState({
       deviceProductList: deviceProductList,
