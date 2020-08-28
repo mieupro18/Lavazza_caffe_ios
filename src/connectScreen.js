@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   AppState,
   Text,
+  BackHandler,
 } from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -17,7 +18,6 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
-
 import {
   IPADDRESS,
   PORT,
@@ -26,24 +26,19 @@ import {
   INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
 } from './macros';
 import getTimeoutSignal from './commonApis';
-
 export default class ConnectScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      isBackgroundTimerOn: false,
     };
   }
-
   async componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
   }
-
   async componentWillUnmount() {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
-
   // Sending collected Feedback data to remote server
   // when mobile gets internet connection
   sendFeedbackData = async (feedbackData) => {
@@ -63,7 +58,6 @@ export default class ConnectScreen extends Component {
           if (resultData.status === 'Success') {
             console.log('data send');
             BackgroundTimer.stopBackgroundTimer(this.intervalId);
-            this.setState({isBackgroundTimerOn: false});
             AsyncStorage.removeItem('feedbackData');
           }
         })
@@ -74,7 +68,6 @@ export default class ConnectScreen extends Component {
       console.log('no internet connection');
     }
   };
-
   handleAppStateChange = async (state) => {
     try {
       if (state === 'background') {
@@ -90,20 +83,15 @@ export default class ConnectScreen extends Component {
             console.log(feedbackData);
             await this.sendFeedbackData(feedbackData);
           }, INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA);
-          this.setState({isBackgroundTimerOn: true});
         }
       } else if (state === 'active') {
         console.log('active');
-        if (this.state.isbackgroundTimerOn === true) {
-          BackgroundTimer.stopBackgroundTimer(this.intervalId);
-          this.setState({isBackgroundTimerOn: false});
-        }
+        BackgroundTimer.stopBackgroundTimer(this.intervalId);
       }
     } catch (error) {
       console.log('Background error', error);
     }
   };
-
   onConnect = async () => {
     this.setState({isLoading: true});
     console.log('get Product Info');
@@ -140,7 +128,6 @@ export default class ConnectScreen extends Component {
         this.setState({isLoading: false});
       });
   };
-
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -151,7 +138,6 @@ export default class ConnectScreen extends Component {
               source={require('../assets/lavazza_logo_with_year.png')}
             />
           </View>
-
           <View style={styles.gifContainer}>
             <Image
               style={styles.gif}
@@ -182,11 +168,10 @@ export default class ConnectScreen extends Component {
     );
   }
 }
-
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFFFFF',
   },
   centeredViewContainer: {
     flex: 1,
