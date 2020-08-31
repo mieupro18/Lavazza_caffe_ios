@@ -41,6 +41,7 @@ import {
   HTTP_POLLING_INTERVAL,
   timeoutForDispense,
   productList,
+  TOKEN,
 } from './macros';
 import getTimeoutSignal from './commonApis';
 import ProgressiveImage from './progressiveImage';
@@ -156,7 +157,7 @@ export default class DispenseScreen extends Component {
           this.state.orderId,
         {
           headers: {
-            tokenId: 'secret',
+            tokenId: TOKEN,
           },
           signal: (await getTimeoutSignal(10000)).signal,
         },
@@ -240,7 +241,7 @@ export default class DispenseScreen extends Component {
       HTTPS + '://' + IPADDRESS + ':' + PORT + '/order?productId=' + productId,
       {
         headers: {
-          tokenId: 'secret',
+          tokenId: TOKEN,
         },
         signal: (await getTimeoutSignal(10000)).signal,
       },
@@ -289,7 +290,7 @@ export default class DispenseScreen extends Component {
         this.state.orderId,
       {
         headers: {
-          tokenId: 'secret',
+          tokenId: TOKEN,
         },
         signal: (await getTimeoutSignal(10000)).signal,
       },

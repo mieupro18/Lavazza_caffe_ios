@@ -21,6 +21,7 @@ import {
   IPADDRESS,
   PORT,
   HTTPS,
+  TOKEN,
   FEEDBACK_SERVER_ENDPOINT,
   INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
 } from './macros';
@@ -98,7 +99,7 @@ export default class ConnectScreen extends Component {
     console.log(HTTPS, PORT, IPADDRESS);
     fetch(HTTPS + '://' + IPADDRESS + ':' + PORT + '/productInfo', {
       headers: {
-        tokenId: 'secret',
+        tokenId: TOKEN,
       },
       signal: (await getTimeoutSignal(5000)).signal,
     })

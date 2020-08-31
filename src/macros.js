@@ -2,6 +2,7 @@
 const IPADDRESS = '192.168.225.226';
 const HTTPS = 'http';
 const PORT = '9876';
+const TOKEN = 'l@vA@zzacfd$';
 const FEEDBACK_SERVER_ENDPOINT = 'https://mieupro.pythonanywhere.com/feedback';
 
 // OS types
@@ -202,6 +203,7 @@ export {
   IPADDRESS,
   HTTPS,
   PORT,
+  TOKEN,
   FEEDBACK_SERVER_ENDPOINT,
   BEFORE_PLACING_ORDER,
   PLEASE_WAIT,
