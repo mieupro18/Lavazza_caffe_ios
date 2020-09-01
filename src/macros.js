@@ -5,6 +5,10 @@ const PORT = '9876';
 const TOKEN = 'l@vA@zzacfd$';
 const FEEDBACK_SERVER_ENDPOINT = 'https://mieupro.pythonanywhere.com/feedback';
 
+// HTTPS STATUS CODE
+const SUCCESS = 0;
+const FAILURE = -1;
+
 // OS types
 const ANDROID = 'android';
 const IOS = 'ios';
@@ -30,7 +34,7 @@ const INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA = 5000;
 const BEFORE_PLACING_ORDER = 0;
 const PLEASE_WAIT = 1;
 const ORDER_PLACED_AND_RECEIVED_BY_THE_MACHINE = 2;
-const PLACE_THE_CUP = 3;
+const WAITING_TO_DISPENSE = 3;
 const DISPENSING = 4;
 const ORDER_DISPENSED = 5;
 
@@ -41,6 +45,7 @@ const MACHINE_NOT_READY = 8;
 const FOAMER_OFF = 9;
 const RINSING = 10;
 const MILK_NOT_READY = 11;
+const MACHINE_DETAIL_MISMATCH = 12;
 
 const orderStatus = {
   0: 'Order your Beverage',
@@ -210,7 +215,7 @@ export {
   PLEASE_WAIT,
   ORDER_PLACED_AND_RECEIVED_BY_THE_MACHINE,
   DISPENSING,
-  PLACE_THE_CUP,
+  WAITING_TO_DISPENSE,
   ORDER_DISPENSED,
   SOMETHING_WENT_WRONG,
   TIMEOUT_EXPIRED,
@@ -218,6 +223,7 @@ export {
   FOAMER_OFF,
   RINSING,
   MILK_NOT_READY,
+  MACHINE_DETAIL_MISMATCH,
   INITIAL_FEEDBACK_INTERVAL,
   ROUTINE_FEEDBACK_INTERVAL,
   INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
@@ -228,4 +234,6 @@ export {
   timeoutForDispense,
   ANDROID,
   IOS,
+  SUCCESS,
+  FAILURE,
 };
