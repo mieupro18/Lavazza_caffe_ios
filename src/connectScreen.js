@@ -17,15 +17,18 @@ import {
   responsiveScreenWidth,
   responsiveScreenFontSize,
 } from 'react-native-responsive-dimensions';
+
 import {
   IPADDRESS,
   PORT,
   HTTPS,
-  TOKEN,
   FEEDBACK_SERVER_ENDPOINT,
   INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
+  TOKEN,
+  SUCCESS,
 } from './macros';
 import getTimeoutSignal from './commonApis';
+
 export default class ConnectScreen extends Component {
   constructor(props) {
     super(props);
@@ -33,16 +36,19 @@ export default class ConnectScreen extends Component {
       isLoading: false,
     };
   }
+
   async componentDidMount() {
     AppState.addEventListener('change', this.handleAppStateChange);
   }
+
   async componentWillUnmount() {
     BackgroundTimer.stopBackgroundTimer(this.intervalId);
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
+
   // Sending collected Feedback data to remote server
   // when mobile gets internet connection
-  sendFeedbackData = async (feedbackData) => {
+  sendFeedbackData = async feedbackData => {
     const netInfo = await NetInfo.fetch();
     console.log('Internet Connection :', netInfo.isInternetReachable);
     if (netInfo.isInternetReachable) {
@@ -51,25 +57,26 @@ export default class ConnectScreen extends Component {
         headers: {
           'Content-Type': 'application/json',
         },
-        signal: (await getTimeoutSignal(5000)).signal,
+        signal: getTimeoutSignal().signal,
         body: JSON.stringify(feedbackData),
       })
-        .then((response) => response.json())
-        .then(async (resultData) => {
+        .then(response => response.json())
+        .then(async resultData => {
           if (resultData.status === 'Success') {
             console.log('data send');
             BackgroundTimer.stopBackgroundTimer(this.intervalId);
             AsyncStorage.removeItem('feedbackData');
           }
         })
-        .catch(async (e) => {
+        .catch(async e => {
           console.log(e);
         });
     } else {
       console.log('no internet connection');
     }
   };
-  handleAppStateChange = async (state) => {
+
+  handleAppStateChange = async state => {
     try {
       if (state === 'background') {
         console.log('background');
@@ -93,6 +100,7 @@ export default class ConnectScreen extends Component {
       console.log('Background error', error);
     }
   };
+
   onConnect = async () => {
     this.setState({isLoading: true});
     console.log('get Product Info');
@@ -101,12 +109,12 @@ export default class ConnectScreen extends Component {
       headers: {
         tokenId: TOKEN,
       },
-      signal: (await getTimeoutSignal(5000)).signal,
+      signal: getTimeoutSignal().signal,
     })
-      .then((response) => response.json())
-      .then(async (resultData) => {
+      .then(response => response.json())
+      .then(async resultData => {
         console.log(resultData);
-        if (resultData.status === 'Success') {
+        if (resultData.status === SUCCESS) {
           this.props.navigation.navigate('dispenseScreen', {
             productList: resultData.data,
             machineName: resultData.machineName,
@@ -119,7 +127,7 @@ export default class ConnectScreen extends Component {
         }
         this.setState({isLoading: false});
       })
-      .catch(async (e) => {
+      .catch(async e => {
         Alert.alert(
           '',
           'Please check your connection with the lavazza caffè machine',
@@ -129,6 +137,7 @@ export default class ConnectScreen extends Component {
         this.setState({isLoading: false});
       });
   };
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -139,6 +148,7 @@ export default class ConnectScreen extends Component {
               source={require('../assets/lavazza_logo_with_year.png')}
             />
           </View>
+
           <View style={styles.gifContainer}>
             <Image
               style={styles.gif}
@@ -169,10 +179,11 @@ export default class ConnectScreen extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ffffff',
   },
   centeredViewContainer: {
     flex: 1,
