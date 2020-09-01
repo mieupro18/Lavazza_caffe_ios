@@ -58,7 +58,7 @@ const orderStatus = {
   7: 'Timeout Expired',
   8: '     Machine is not ready\nPlease try after sometime',
   9: 'Please turn on the Foamer',
-  10: 'Rinsing',
+  10: '       Rinsing is going on\nPlease try after sometime',
   11: '         Milk is not ready\nPlease try after sometime',
 };
 
