@@ -48,7 +48,7 @@ export default class ConnectScreen extends Component {
 
   // Sending collected Feedback data to remote server
   // when mobile gets internet connection
-  sendFeedbackData = async feedbackData => {
+  sendFeedbackData = async (feedbackData) => {
     const netInfo = await NetInfo.fetch();
     console.log('Internet Connection :', netInfo.isInternetReachable);
     if (netInfo.isInternetReachable) {
@@ -60,15 +60,15 @@ export default class ConnectScreen extends Component {
         signal: getTimeoutSignal().signal,
         body: JSON.stringify(feedbackData),
       })
-        .then(response => response.json())
-        .then(async resultData => {
+        .then((response) => response.json())
+        .then(async (resultData) => {
           if (resultData.status === 'Success') {
             console.log('data send');
             BackgroundTimer.stopBackgroundTimer(this.intervalId);
             AsyncStorage.removeItem('feedbackData');
           }
         })
-        .catch(async e => {
+        .catch(async (e) => {
           console.log(e);
         });
     } else {
@@ -76,7 +76,7 @@ export default class ConnectScreen extends Component {
     }
   };
 
-  handleAppStateChange = async state => {
+  handleAppStateChange = async (state) => {
     try {
       if (state === 'background') {
         console.log('background');
@@ -111,8 +111,8 @@ export default class ConnectScreen extends Component {
       },
       signal: getTimeoutSignal().signal,
     })
-      .then(response => response.json())
-      .then(async resultData => {
+      .then((response) => response.json())
+      .then(async (resultData) => {
         console.log(resultData);
         if (resultData.status === SUCCESS) {
           this.props.navigation.navigate('dispenseScreen', {
@@ -127,7 +127,7 @@ export default class ConnectScreen extends Component {
         }
         this.setState({isLoading: false});
       })
-      .catch(async e => {
+      .catch(async (e) => {
         Alert.alert(
           '',
           'Please check your connection with the lavazza caffè machine',

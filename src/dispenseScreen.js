@@ -83,12 +83,12 @@ export default class DispenseScreen extends Component {
 
   async componentWillUnmount() {}
 
-  showProductList = async machineProdutList => {
+  showProductList = async (machineProdutList) => {
     console.log('show Product list');
     let deviceProductList = [];
-    await machineProdutList.map(async product => {
+    await machineProdutList.map(async (product) => {
       let filterProduct = productList.find(
-        allproduct => allproduct.productId === product.productId,
+        (allproduct) => allproduct.productId === product.productId,
       );
       product.src = filterProduct.src;
       deviceProductList.push(product);
@@ -102,7 +102,7 @@ export default class DispenseScreen extends Component {
     });
   };
 
-  checkForFeedbackVisibility = async productName => {
+  checkForFeedbackVisibility = async (productName) => {
     var feedbackTimeDetails = JSON.parse(
       await AsyncStorage.getItem(productName),
     );
@@ -165,7 +165,7 @@ export default class DispenseScreen extends Component {
     clearInterval(this.pollingIntervalId);
   };
 
-  startPollForOrderStatus = async productName => {
+  startPollForOrderStatus = async (productName) => {
     this.pollingIntervalId = setInterval(async () => {
       fetch(
         HTTPS +
@@ -184,8 +184,8 @@ export default class DispenseScreen extends Component {
           signal: getTimeoutSignal().signal,
         },
       )
-        .then(response => response.json())
-        .then(async resultData => {
+        .then((response) => response.json())
+        .then(async (resultData) => {
           console.log(resultData);
           if (resultData.status === SUCCESS) {
             if (
@@ -248,7 +248,7 @@ export default class DispenseScreen extends Component {
             this.setStateVariablesToInitialState();
           }
         })
-        .catch(async e => {
+        .catch(async (e) => {
           this.stopPollForOrderStatus();
           this.setState({
             orderStatusCode: SOMETHING_WENT_WRONG,
@@ -266,7 +266,7 @@ export default class DispenseScreen extends Component {
   ) => {
     if (pairOrderFlag) {
       let pairProduct = this.state.deviceProductList.find(
-        allproduct => allproduct.productId === pairProductId,
+        (allproduct) => allproduct.productId === pairProductId,
       );
       console.log(pairProduct);
       Alert.alert(
@@ -322,8 +322,8 @@ export default class DispenseScreen extends Component {
         signal: getTimeoutSignal().signal,
       },
     )
-      .then(response => response.json())
-      .then(async resultData => {
+      .then((response) => response.json())
+      .then(async (resultData) => {
         console.log(resultData);
         if (
           resultData.status === SUCCESS &&
@@ -354,7 +354,7 @@ export default class DispenseScreen extends Component {
           });
         }
       })
-      .catch(async e => {
+      .catch(async (e) => {
         console.log(e);
         this.setState({
           orderStatusCode: SOMETHING_WENT_WRONG,
@@ -363,7 +363,7 @@ export default class DispenseScreen extends Component {
       });
   };
 
-  startDispense = async productName => {
+  startDispense = async (productName) => {
     clearInterval(this.timer);
     this.setState({timer: timeoutForDispense});
     this.setState({orderStatusCode: DISPENSING});
@@ -384,8 +384,8 @@ export default class DispenseScreen extends Component {
         signal: getTimeoutSignal().signal,
       },
     )
-      .then(response => response.json())
-      .then(async resultData => {
+      .then((response) => response.json())
+      .then(async (resultData) => {
         console.log(resultData);
         if (
           resultData.status === SUCCESS &&
@@ -410,7 +410,7 @@ export default class DispenseScreen extends Component {
           this.setStateVariablesToInitialState();
         }
       })
-      .catch(async e => {
+      .catch(async (e) => {
         this.setState({
           orderStatusCode: SOMETHING_WENT_WRONG,
         });
@@ -608,7 +608,7 @@ export default class DispenseScreen extends Component {
                         fullStarColor="#100A45"
                         halfStarEnabled={false}
                         rating={this.state.starCount}
-                        selectedStar={rating => {
+                        selectedStar={(rating) => {
                           let productNames = [];
                           productNames.push(
                             this.state.deviceProductList[
