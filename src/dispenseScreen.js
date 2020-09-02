@@ -228,18 +228,13 @@ export default class DispenseScreen extends Component {
                 orderStatusCode: ORDER_DISPENSED,
                 orderId: null,
               });
-            } else if (resultData.orderStatus === MACHINE_NOT_READY) {
-              console.log('not ready');
-              this.stopPollForOrderStatus();
-              this.setState({
-                orderStatusCode: MACHINE_NOT_READY,
-                orderId: null,
-              });
-            }
+            } 
           } else {
             this.stopPollForOrderStatus();
             if (resultData.orderStatus === MACHINE_DETAIL_MISMATCH) {
               this.showMachineNameMismatch();
+            } else if (resultData.orderStatus === MACHINE_NOT_READY) {
+              this.setState({orderStatusCode: MACHINE_NOT_READY});
             } else {
               this.setState({
                 orderStatusCode: SOMETHING_WENT_WRONG,
