@@ -4,6 +4,6 @@ export default getTimeoutSignal = (async) => {
   const controller = new AbortController();
   setTimeout(() => {
     controller.abort();
-  }, 30000);
+  }, 10000);
   return controller;
 };
