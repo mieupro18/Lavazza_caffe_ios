@@ -261,33 +261,41 @@ export default class DispenseScreen extends Component {
   ) => {
     if (pairOrderFlag) {
       let pairProduct = this.state.deviceProductList.find(
-        (allproduct) => allproduct.productId === pairProductId,
+        allproduct => allproduct.productId === pairProductId,
       );
-      console.log(pairProduct);
-      Alert.alert(
-        '',
-        'Do you want ' + productName + ' with ' + pairProduct.productName + '?',
-        [
-          {
-            text: 'Yes',
-            onPress: () => {
-              this.setState({
-                pairOrderFlag: pairOrderFlag,
-                pairProductId: pairProductId,
-                pairProductName: pairProduct.productName,
-                pairProductImage: pairProduct.src,
-              });
-              this.placeOrder(productId, productName);
+      if (typeof pairProduct === 'undefined') {
+        this.placeOrder(productId, productName);
+      } else {
+        console.log(pairProduct);
+        Alert.alert(
+          '',
+          'Do you want ' +
+            productName +
+            ' with ' +
+            pairProduct.productName +
+            '?',
+          [
+            {
+              text: 'Yes',
+              onPress: () => {
+                this.setState({
+                  pairOrderFlag: pairOrderFlag,
+                  pairProductId: pairProductId,
+                  pairProductName: pairProduct.productName,
+                  pairProductImage: pairProduct.src,
+                });
+                this.placeOrder(productId, productName);
+              },
             },
-          },
-          {
-            text: 'No',
-            onPress: () => {
-              this.placeOrder(productId, productName);
+            {
+              text: 'No',
+              onPress: () => {
+                this.placeOrder(productId, productName);
+              },
             },
-          },
-        ],
-      );
+          ],
+        );
+      }
     } else {
       this.placeOrder(productId, productName);
     }
