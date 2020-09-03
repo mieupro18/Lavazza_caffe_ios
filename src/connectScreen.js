@@ -130,7 +130,7 @@ export default class ConnectScreen extends Component {
       .catch(async (e) => {
         Alert.alert(
           '',
-          'Please check your connection with the lavazza caffè machine',
+          'Please check your wifi connection with the lavazza caffè machine',
           [{text: 'ok'}],
         );
         console.log(e);
