@@ -1,5 +1,5 @@
 // SERVER INFO
-const IPADDRESS = '192.168.225.226';
+const IPADDRESS = '192.168.5.1';
 const HTTPS = 'http';
 const PORT = '9876';
 const TOKEN = 'l@vA@zzacfd$';
