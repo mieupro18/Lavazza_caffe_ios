@@ -384,7 +384,7 @@ export default class DispenseScreen extends Component {
           machineId: this.state.machineId,
           machineName: this.state.machineName,
         },
-        signal: getTimeoutSignal(5000).signal,
+        signal: getTimeoutSignal(10000).signal,
       },
     )
       .then((response) => response.json())
