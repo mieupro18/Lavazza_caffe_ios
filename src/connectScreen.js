@@ -57,7 +57,7 @@ export default class ConnectScreen extends Component {
         headers: {
           'Content-Type': 'application/json',
         },
-        signal: getTimeoutSignal().signal,
+        signal: getTimeoutSignal(30000).signal,
         body: JSON.stringify(feedbackData),
       })
         .then((response) => response.json())
@@ -109,7 +109,7 @@ export default class ConnectScreen extends Component {
       headers: {
         tokenId: TOKEN,
       },
-      signal: getTimeoutSignal().signal,
+      signal: getTimeoutSignal(5000).signal,
     })
       .then((response) => response.json())
       .then(async (resultData) => {
