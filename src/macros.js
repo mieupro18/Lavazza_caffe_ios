@@ -46,6 +46,9 @@ const FOAMER_OFF = 9;
 const RINSING = 10;
 const MILK_NOT_READY = 11;
 const MACHINE_DETAIL_MISMATCH = 12;
+const INVALID_TOKEN = 13;
+const EXCEPTION_OCCURED = 14;
+const MACHINE_ERROR = 15;
 
 const orderStatus = {
   0: 'Order your Beverage',
@@ -60,6 +63,7 @@ const orderStatus = {
   9: 'Please turn on the Foamer',
   10: '       Rinsing is going on\nPlease try after sometime',
   11: '         Milk is not ready\nPlease try after sometime',
+  15: 'Machine Error',
 };
 
 const productList = [
@@ -224,6 +228,9 @@ export {
   RINSING,
   MILK_NOT_READY,
   MACHINE_DETAIL_MISMATCH,
+  INVALID_TOKEN,
+  EXCEPTION_OCCURED,
+  MACHINE_ERROR,
   INITIAL_FEEDBACK_INTERVAL,
   ROUTINE_FEEDBACK_INTERVAL,
   INTERVAL_BETWEEN_SENDING_FEEDBACK_DATA,
