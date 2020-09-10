@@ -75,12 +75,12 @@ const productList = [
   {
     productId: 2,
     productName: 'Espresso',
-    src: require('../assets/Espresso_or_Black_Coffee.jpg'),
+    src: require('../assets/Espresso.jpg'),
   },
   {
     productId: 3,
     productName: 'Black Coffee',
-    src: require('../assets/Espresso_or_Black_Coffee.jpg'),
+    src: require('../assets/Black_Coffee.jpg'),
   },
   {
     productId: 4,
